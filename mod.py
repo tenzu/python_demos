@@ -6,4 +6,3 @@ while True:
         break
     else:
         i += 1
-print('testing')
