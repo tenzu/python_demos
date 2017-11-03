@@ -1,0 +1,83 @@
+/NOPR   
+KEYW,PR_SET,1   
+KEYW,PR_STRUC,1 
+KEYW,PR_THERM,0 
+KEYW,PR_FLUID,0 
+KEYW,PR_MULTI,0 
+KEYW,LSDYNA,1   
+KEYW,PR_DYNA,1  
+/PLOPTS,DATE,0
+/PLOPTS,WP,0
+/TRIAD,OFF
+/REPLOT
+*AFUN,RAD
+/PREP7
+
+ESEL,S,MAT,,1  !part for fibre nodes 
+NSLE,S  
+CM,fibre,NODE   
+ALLSEL,ALL  
+
+ESEL,S,MAT,,2   !part for boneA nodes
+NSLE,S  
+CM,bone_A,NODE  
+ALLSEL,ALL  
+
+ESEL,S,MAT,,3   !part for boneB nodes
+NSLE,S  
+CM,bone_B,NODE  
+ALLSEL,ALL 
+
+ESEL,S,MAT,,4   !part for boneC nodes
+NSLE,S  
+CM,bone_C,NODE  
+ALLSEL,ALL   
+
+ESEL,S,MAT,,5   !part for boneD nodes
+NSLE,S  
+CM,bone_D,NODE  
+ALLSEL,ALL  
+
+ESEL,S,MAT,,6   !part for concrete nodes
+NSLE,S  
+CM,concrete,NODE  
+ALLSEL,ALL  
+
+ESEL,S,MAT,,7   !part for bars nodes
+NSLE,S  
+CM,bars,NODE  
+ALLSEL,ALL  
+
+LSEL,S,LOC,X,-2.0375e3 	!part for input wave
+NSLL,S,1
+CM,input_wave,NODE  
+ALLSEL,ALL  
+
+!LSEL,S,,,706	!part for input bar contact
+!NSLL,S,1
+!CM,input_bar_contact,NODE   
+!ALLSEL,ALL  
+!
+!FLST,5,2,4,ORDE,2	!part for input concrete contact
+!FITEM,5,702 
+!FITEM,5,-703
+!LSEL,S, , ,P51X 
+!NSLL,S,1
+!CM,input_concrete_contact,NODE  
+!ALLSEL,ALL  
+!
+!FLST,5,2,4,ORDE,2	!part for transmitted concrete contact
+!FITEM,5,701 
+!FITEM,5,704 
+!LSEL,S, , ,P51X 
+!NSLL,R,1
+!CM,transmitted_concrete_contact,NODE
+!ALLSEL,ALL  
+!
+!LSEL,S,,,712	!part for transmitted bar contact
+!NSLL,S,1
+!CM,transmitted_bar_contact,NODE 
+!ALLSEL,ALL
+
+EDPART,CREATE	!create all parts
+EDCGEN,ASS2D, , ,0,0,0,0,0, , , , ,0,10000000,0,0	!auto 2-D contact

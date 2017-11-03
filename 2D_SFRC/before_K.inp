@@ -1,0 +1,43 @@
+FINISH
+/CLEAR,NOSTART
+/INPUT,'fibre_aggregate_mesh','inp'
+/INPUT,'bars','inp'
+/INPUT,'define_parts','inp'
+/INPUT,'input_wave','inp'
+
+/SOL
+EDDB,1	!double precision
+TIME,1.0,	!termination time
+EDOPT,ADD,blank,LSDYNA	!ANSYS output file type
+EDRST,100,	!results file output interval, number of output steps
+EDHTIME,1000,	!time-history output interval, number of output steps
+EDDUMP,1,	!restart dump output interval, number of output steps
+
+NSEL,S,LOC,Y,0.0374e3,0.0375e3	!database_history_node on disk 
+NSEL,A,LOC,Y,-0.0374e3,-0.0375e3
+NSEL,R,LOC,X,0,0
+CM,X_0,NODE 
+EDHIST,X_0  
+ALLSEL,ALL  
+
+!NSEL,S,LOC,X,-1.0375e3-0.005e3/2,-1.0375e3+0.005e3/2	!database_history_shell on input bar
+!NSEL,R,LOC,Y,-0.00250e3,0.0025e3 
+!ESLN,S  
+*SET,MID_NODE1,NODE(-1037.5,,,) 
+*SET,MID_ELM1,ENEARN(MID_NODE1)   
+ESEL,S,,,MID_ELM1
+CM,inputbar_middle,ELEM 
+EDHIST,inputbar_middle  
+ALLSEL,ALL  
+
+!NSEL,S,LOC,X,1.0375e3-0.005e3/2,1.0375e3+0.005e3/2	!database_history_shell on transmitted bar
+!NSEL,R,LOC,Y,-0.0025e3,0.0025e3 
+!ESLN,S  
+*SET,MID_NODE2,NODE(1037.5,,,) 
+*SET,MID_ELM2,ENEARN(MID_NODE2)   
+ESEL,S,,,MID_ELM2
+CM,transmittedbar_middle,ELEM 
+EDHIST,transmittedbar_middle  
+ALLSEL,ALL  
+
+EDWRITE,LSDYNA,'BD_splitting','k',' '	!write k file

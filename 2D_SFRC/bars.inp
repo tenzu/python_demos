@@ -1,0 +1,58 @@
+/NOPR
+KEYW,PR_SET,1
+KEYW,PR_STRUC,1
+KEYW,PR_THERM,0
+KEYW,PR_FLUID,0
+KEYW,PR_MULTI,0
+KEYW,LSDYNA,1
+KEYW,PR_DYNA,1
+/PLOPTS,DATE,0
+/PLOPTS,WP,0
+/TRIAD,OFF
+/REPLOT
+*AFUN,RAD
+/PREP7
+
+RECTNG,-2.0375e3,-0.0375e3,-0.0375e3,0.0375e3,	!draw input bar
+RECTNG,0.0375e3,2.0375e3,-0.0375e3,0.0375e3,	!draw transmitted bar
+
+MPTEMP,,,,,,,   !bars material model (number 7)
+MP,DENS,7,7800
+MP,EX,7,2e11
+MP,NUXY,7,0.3
+!!!!!!!!!!!!!!!!!!!!!!!!!above material model will be replaced in final k file
+
+FLST,5,2,5,ORDE,2   !mesh attribute for bars
+FITEM,5,NUM_F+NUM_BA+NUM_BB+NUM_BC+NUM_BD+1+1 	!area number for input bar, "+1" for conctere, another "+1" for input bar
+FITEM,5,-(NUM_F+NUM_BA+NUM_BB+NUM_BC+NUM_BD+1+1+1)	!area number for transmitted bar, "+1" for conctere, "+1" for input bar, the last "+1" for transmitted bar
+CM,_Y,AREA
+ASEL,,,,P51X
+CM,_Y1,AREA
+CMSEL,S,_Y
+CMSEL,S,_Y1
+AATT,7,,1,0,
+CMSEL,S,_Y
+CMDELE,_Y
+CMDELE,_Y1
+
+FLST,5,8,4,ORDE,2   !meshing bars
+FITEM,5,(NUM_F+NUM_BA+NUM_BB+NUM_BC+NUM_BD+1)*4+1
+FITEM,5,-((NUM_F+NUM_BA+NUM_BB+NUM_BC+NUM_BD+1)*4+1+7)
+CM,_Y,LINE
+LSEL, , , ,P51X
+CM,_Y1,LINE
+CMSEL,,_Y
+LESIZE,_Y1,0.004e3, , , , , , ,1  !mesh size for bars
+MSHKEY,1
+FLST,5,2,5,ORDE,2 
+FITEM,5,NUM_F+NUM_BA+NUM_BB+NUM_BC+NUM_BD+1+1	!area number for input bar, "+1" for conctere, another "+1" for input bar
+FITEM,5,-(NUM_F+NUM_BA+NUM_BB+NUM_BC+NUM_BD+1+1+1)	!area number for transmitted bar, "+1" for conctere, "+1" for input bar, the last "+1" for transmitted bar
+CM,_Y,AREA
+ASEL,,,,P51X
+CM,_Y1,AREA
+CHKMSH,'AREA'
+CMSEL,S,_Y
+AMESH,_Y1
+CMDELE,_Y
+CMDELE,_Y1
+CMDELE,_Y2

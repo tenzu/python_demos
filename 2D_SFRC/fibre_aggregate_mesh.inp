@@ -1,0 +1,282 @@
+/NOPR   
+KEYW,PR_SET,1   
+KEYW,PR_STRUC,1 
+KEYW,PR_THERM,0 
+KEYW,PR_FLUID,0 
+KEYW,PR_MULTI,0 
+KEYW,LSDYNA,1   
+KEYW,PR_DYNA,1  
+/PLOPTS,DATE,0
+/PLOPTS,WP,0
+/TRIAD,OFF
+/REPLOT
+*AFUN,RAD
+/PREP7
+
+pi=acos(-1)	!define pi=3.14
+SPL_SEG=100	!spline segments
+NUM_KP=1	!initial keypoint number
+F_LENG=0.015e3  !fiber length(y value)
+F_WIDT=0.005e3	!fiber width(x value)
+SPL_CR=0.000315e3	!spline circles radius
+DISK_R=0.0375e3	!disk radius
+
+*DIM,ORG_CTR,array,SPL_SEG+1,2	!Original circle centers for overlap check
+*VREAD,ORG_CTR,ORG_CTR,txt,,JIK,2,SPL_SEG+1,,0,
+(2F12.5)
+*do,i,1,SPL_SEG+1,1	!draw spline
+	x=ORG_CTR(i,1,1)
+	y=ORG_CTR(i,2,1)
+	k,NUM_KP,x,y
+	NUM_KP=NUM_KP+1
+*enddo
+FLST,3,NUM_KP-1,3
+*do,i,1,NUM_KP-1,1
+	FITEM,3,i
+*enddo
+BSPLIN, ,P51X	!draw spline
+
+NUM_F=12	!number of fibres
+*DIM,F_LOCATIONS,,NUM_F+1,3,,,
+*VREAD,F_LOCATIONS,F_LOCATIONS,txt,,JIK,3,NUM_F,,0,
+(3F12.5)
+*do,i,1,NUM_F
+	x=-0.00774133e3
+	y=0.00014199e3
+	K,NUM_KP+1,x,y
+	x=-0.00725867e3
+	y=-0.00014199e3
+	K,NUM_KP+2,x,y
+	L,NUM_KP+1,NUM_KP+2
+	ADRAG,2+4*(i-1), , , , , ,1	!draw fibre
+	CSYS,2	!move and rotate fibre
+	FLST,3,1,5,ORDE,1   
+	FITEM,3,i   
+	AGEN, ,P51X, , , ,F_LOCATIONS(i,3), , , ,1 
+	CSYS,0  
+	FLST,3,1,5,ORDE,1   
+	FITEM,3,i 
+	AGEN, ,P51X, , ,F_LOCATIONS(i,1),F_LOCATIONS(i,2), , , ,1 
+	NUM_KP=NUM_KP+4
+	i=i+1
+*enddo
+	
+NUM_BA=5 !number of aggregate type 1
+*dim,BA_LOCATIONS,array,(NUM_BA+1),3
+*VREAD,BA_LOCATIONS,BA_LOCATIONS,txt,,JIK,3,NUM_BA,,0,
+(3F12.5)
+*do,i,1,NUM_BA  !draw aggregate type 1
+		wpoff,BA_LOCATIONS(i,1),BA_LOCATIONS(i,2),0 
+		CYL4,0,0,BA_LOCATIONS(i,3)
+		i=i+1
+		WPCSYS,-1,0
+*enddo
+
+NUM_BB=12 !draw aggregate type 2
+*dim,BB_LOCATIONS,array,(NUM_BB+1),3
+*VREAD,BB_LOCATIONS,BB_LOCATIONS,txt,,JIK,3,NUM_BB,,0,
+(3F12.5)
+*do,i,1,NUM_BB  !draw aggregate type 1
+		wpoff,BB_LOCATIONS(i,1),BB_LOCATIONS(i,2),0 
+		CYL4,0,0,BB_LOCATIONS(i,3)
+		i=i+1
+		WPCSYS,-1,0
+*enddo
+
+NUM_BC=32 !number of aggregate type 3
+*dim,BC_LOCATIONS,array,(NUM_BC+1),3
+*VREAD,BC_LOCATIONS,BC_LOCATIONS,txt,,JIK,3,NUM_BC,,0,
+(3F12.5)
+*do,i,1,NUM_BC  !draw aggregate type 3
+		wpoff,BC_LOCATIONS(i,1),BC_LOCATIONS(i,2),0 
+		CYL4,0,0,BC_LOCATIONS(i,3)
+		i=i+1
+		WPCSYS,-1,0
+*enddo
+ 
+NUM_BD=122 !number of aggregate type 4
+*dim,BD_LOCATIONS,array,(NUM_BD+1),3
+*VREAD,BD_LOCATIONS,BD_LOCATIONS,txt,,JIK,3,NUM_BD,,0,
+(3F12.5)
+*do,i,1,NUM_BD  !draw aggregate type 4
+		wpoff,BD_LOCATIONS(i,1),BD_LOCATIONS(i,2),0 
+		CYL4,0,0,BD_LOCATIONS(i,3)
+		i=i+1
+		WPCSYS,-1,0
+*enddo
+
+CYL4,,,DISK_R !draw disk 
+LDELE,1,,,1 !delete original spline
+BTOL,1e-006, !Boolean operation tolerance
+FLST,2,NUM_F+NUM_BA+NUM_BB+NUM_BC+NUM_BD+1,5,ORDE,2
+FITEM,2,1
+FITEM,2,-(NUM_F+NUM_BA+NUM_BB+NUM_BC+NUM_BD+1)
+AOVLAP,P51X !geometrical areas overlap
+
+!!!!!!!!!!!!!!!!!!!!!!!!!END OF GEOMETRICAL MODEL
+
+ET,1,PLANE162
+KEYOPT,1,3,2
+KEYOPT,1,5,0
+
+MPTEMP,,,,,,,   !fibre material model (number 1)
+MP,DENS,1,7800  
+MP,EX,1,2e11
+MP,NUXY,1,0.3
+TB,BISO,1,,,,   
+TBDAT,1,235e6   
+TBDAT,2,1
+
+MPTEMP,,,,,,,   !aggregate type 1 material model (number 2)
+MP,DENS,2,2700  
+MP,EX,2,5e10
+MP,NUXY,2,0.2
+
+MPTEMP,,,,,,,   !aggregate type 2 material model (number 3)
+MP,DENS,3,2700  
+MP,EX,3,5e10
+MP,NUXY,3,0.2
+
+MPTEMP,,,,,,,   !aggregate type 3 material model (number 4)
+MP,DENS,4,2700  
+MP,EX,4,5e10
+MP,NUXY,4,0.2
+
+MPTEMP,,,,,,,   !aggregate type 4 material model (number 5)
+MP,DENS,5,2700  
+MP,EX,5,5e10
+MP,NUXY,5,0.2
+
+MPTEMP,,,,,,,   !disk material model (number 6)
+MP,DENS,6,2200  
+MP,EX,6,3e10
+MP,NUXY,6,0.2
+
+!!!!!!!!!!!!!!!!!!!!!!!!!above material models will be replaced in final k file
+
+FLST,5,NUM_F,5,ORDE,2  !mesh attribute for fibres 
+FITEM,5,1
+FITEM,5,-1*NUM_F
+CM,_Y,AREA
+ASEL,,,,P51X
+CM,_Y1,AREA
+CMSEL,S,_Y
+CMSEL,S,_Y1
+AATT,1,,1,0,
+CMSEL,S,_Y
+CMDELE,_Y
+CMDELE,_Y1
+  
+FLST,5,NUM_BA,5,ORDE,2  !mesh attribute for aggregateA 
+FITEM,5,NUM_F+1
+FITEM,5,-1*(NUM_F+NUM_BA)
+CM,_Y,AREA
+ASEL, , , ,P51X
+CM,_Y1,AREA
+CMSEL,S,_Y
+CMSEL,S,_Y1
+AATT,2,,1,0,
+CMSEL,S,_Y
+CMDELE,_Y
+CMDELE,_Y1
+
+FLST,5,NUM_BB,5,ORDE,2 !mesh attribute for aggregateB
+FITEM,5,NUM_F+NUM_BA+1
+FITEM,5,-1*(NUM_F+NUM_BA+NUM_BB)
+CM,_Y,AREA
+ASEL,,,,P51X
+CM,_Y1,AREA
+CMSEL,S,_Y
+CMSEL,S,_Y1
+AATT,3,,1,0,
+CMSEL,S,_Y
+CMDELE,_Y
+CMDELE,_Y1
+
+FLST,5,NUM_BC,5,ORDE,2 !mesh attribute for aggregateC
+FITEM,5,NUM_F+NUM_BA+NUM_BB+1
+FITEM,5,-1*(NUM_F+NUM_BA+NUM_BB+NUM_BC)
+CM,_Y,AREA
+ASEL,,,,P51X
+CM,_Y1,AREA
+CMSEL,S,_Y
+CMSEL,S,_Y1
+AATT,4,,1,0,
+CMSEL,S,_Y
+CMDELE,_Y
+CMDELE,_Y1
+
+FLST,5,NUM_BD,5,ORDE,2 !mesh attribute for aggregateD
+FITEM,5,NUM_F+NUM_BA+NUM_BB+NUM_BC+1
+FITEM,5,-1*(NUM_F+NUM_BA+NUM_BB+NUM_BC+NUM_BD)
+CM,_Y,AREA
+ASEL,,,,P51X
+CM,_Y1,AREA
+CMSEL,S,_Y
+CMSEL,S,_Y1
+AATT,5,,1,0,
+CMSEL,S,_Y
+CMDELE,_Y
+CMDELE,_Y1
+
+CM,_Y,AREA	!mesh attribute for concrete
+ASEL,S,,,NUM_F+NUM_BA+NUM_BB+NUM_BC+NUM_BD+2 
+CM,_Y1,AREA
+CMSEL,S,_Y
+CMSEL,S,_Y1
+AATT,6,,1,0,
+CMSEL,S,_Y
+CMDELE,_Y
+CMDELE,_Y1
+
+!!!!!!!!!!!!!!!!!!!!!!!!!END OF MESH ATTRIBUTES
+
+F_MESH=0.00028e3 !meshing fibres
+FLST,5,4*NUM_F,4,ORDE,2
+FITEM,5,2
+FITEM,5,-(4*NUM_F+1)	!"+1" since the original spline was deleted
+CM,_Y,LINE
+LSEL, , , ,P51X
+CM,_Y1,LINE
+CMSEL,,_Y
+LESIZE,_Y1,F_MESH,,,,,,,1
+MSHAPE,0,2D
+MSHKEY,0
+FLST,5,NUM_F,5,ORDE,2
+FITEM,5,1
+FITEM,5,-NUM_F
+CM,_Y,AREA
+ASEL, , , ,P51X
+CM,_Y1,AREA
+CHKMSH,'AREA'
+CMSEL,S,_Y
+AMESH,_Y1
+CMDELE,_Y
+CMDELE,_Y1
+CMDELE,_Y2
+
+B_MESH=0.00028e3 !meshing aggregates
+FLST,5,(NUM_BA+NUM_BB+NUM_BC+NUM_BD)*4+4,4,ORDE,2	!"+4" since 4 lines for outer cocrete disk
+FITEM,5,4*NUM_F+2
+FITEM,5,-((NUM_F+NUM_BA+NUM_BB+NUM_BC+NUM_BD)*4+4+1)	!"+1" since the original spline was deleted
+CM,_Y,LINE
+LSEL, , , ,P51X
+CM,_Y1,LINE
+CMSEL,,_Y
+LESIZE,_Y1,B_MESH,,,,,,,1
+FLST,5,(NUM_F+NUM_BA+NUM_BB+NUM_BC+NUM_BD)+1,5,ORDE,3
+FITEM,5,1
+FITEM,5,-(NUM_F+NUM_BA+NUM_BB+NUM_BC+NUM_BD)
+FITEM,5,NUM_F+NUM_BA+NUM_BB+NUM_BC+NUM_BD+2
+CM,_Y,AREA
+ASEL, , , ,P51X
+CM,_Y1,AREA
+CHKMSH,'AREA'
+CMSEL,S,_Y
+AMESH,_Y2
+CMDELE,_Y
+CMDELE,_Y1
+CMDELE,_Y2
+
+NUMCMP,ALL
+!!!!!!!!!!!!!!!!!!!!!!!!!END OF MESHING

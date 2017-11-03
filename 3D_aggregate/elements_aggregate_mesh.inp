@@ -1,0 +1,158 @@
+/NOPR   
+KEYW,PR_SET,1   
+KEYW,PR_STRUC,1 
+KEYW,PR_THERM,0 
+KEYW,PR_FLUID,0 
+KEYW,PR_MULTI,0 
+KEYW,LSDYNA,1   
+KEYW,PR_DYNA,1  
+/PLOPTS,DATE,0  
+/PLOPTS,WP,0
+/TRIAD,OFF  
+/REPLOT 
+*AFUN,DEG   
+/PREP7  
+
+*SET,PHAI,4 !degree for flat end (degree)
+*SET,TD_RATIO,0.4   !thickness/diameter ratio of disk
+*SET,DISK_R,0.0375e3   !disk radius (mm)
+*SET,DISK_T,DISK_R*TD_RATIO    !disk thickness (mm)
+!*SET,DISK_MSIZE,0.00028e3   !mesh size for disk (mm)
+*SET,DISK_MSIZE,0.001e3   !mesh size for disk (mm)
+
+ET,1,SOLID164
+
+MPTEMP,,,,,,,   !fibre material model (number 1)
+MP,DENS,1,7800  
+MP,EX,1,2e11
+MP,NUXY,1,0.3
+TB,BISO,1,,,,   
+TBDAT,1,235e6   
+TBDAT,2,1
+
+MPTEMP,,,,,,,   !aggregate type A material model (number 2)
+MP,DENS,2,2701  
+MP,EX,2,5e10
+MP,NUXY,2,0.2
+
+MPTEMP,,,,,,,   !aggregate type B material model (number 3)
+MP,DENS,3,2702  
+MP,EX,3,5e10
+MP,NUXY,3,0.2
+
+MPTEMP,,,,,,,   !aggregate type C material model (number 4)
+MP,DENS,4,2703  
+MP,EX,4,5e10
+MP,NUXY,4,0.2
+
+MPTEMP,,,,,,,   !aggregate type D material model (number 5)
+MP,DENS,5,2704  
+MP,EX,5,5e10
+MP,NUXY,5,0.2
+
+MPTEMP,,,,,,,   !disk material model (number 6)
+MP,DENS,6,2200  
+MP,EX,6,3e10
+MP,NUXY,6,0.2
+
+!!!!!!!!!!!!!!!!!!!!!!!!!above material models will be replaced in final k file
+
+K, ,0,0 !plot DISK   
+K, ,0,DISK_R
+L,1,2   
+K, ,DISK_R,0
+L,1,3   
+CIRCLE,1,DISK_R, , ,90, 
+NUMMRG,KP, , , ,LOW 
+CSYS,1  
+K, ,DISK_R,PHAI/2   
+CSYS,0  
+LANG,2,4,90, ,  
+LSBL,3,5, , ,KEEP   
+LDELE,4, , ,1   
+LDELE,7, , ,1   
+NUMCMP,ALL  
+AL,1,2,3,4  
+VOFFST,1,TD_RATIO*2*DISK_R/2, , 
+VOFFST,1,-TD_RATIO*2*DISK_R/2, ,
+VADD,1,2
+VATT,6, ,1,0    !mesh FBD and mirror
+LESIZE,ALL,DISK_MSIZE, , , ,1, , ,1, 
+LCCAT,3,4   
+LCCAT,6,7   
+LCCAT,14,15 
+VSWEEP,3
+VSYMM,X,3, , , ,0,0 
+VSYMM,Y,1,3, , ,0,0 
+NUMMRG,ALL, , , ,LOW
+NUMCMP,ALL 
+
+CSWPLA,11,2,1,1,
+NUM_BA=5 !number of aggregate type A
+*dim,BA_LOCATIONS,array,(NUM_BA+1),4
+*VREAD,BA_LOCATIONS,BA_LOCATIONS,txt,,JIK,4,NUM_BA,,0,
+(4F12.5)
+*do,i,1,NUM_BA  !change material type of elements within aggregate type A
+        WPCSYS,-1,0
+		wpoff,BA_LOCATIONS(i,1),BA_LOCATIONS(i,2),BA_LOCATIONS(i,3) 
+        CSWPLA,11,2,1,1,
+        NSEL,S,LOC,X,0,BA_LOCATIONS(i,4)
+        ESLN,R  
+        EMODIF,ALL,MAT,2,  
+        ALLSEL,ALL  
+		i=i+1
+		WPCSYS,-1,0
+*enddo
+
+!NUM_BB=12 !number of aggregate type B
+!*dim,BB_LOCATIONS,array,(NUM_BB+1),4
+!*VREAD,BB_LOCATIONS,BB_LOCATIONS,txt,,JIK,4,NUM_BB,,0,
+!(4F12.5)
+!*do,i,1,NUM_BB  !change material type of elements within aggregate type B
+!        WPCSYS,-1,0
+!		wpoff,BB_LOCATIONS(i,1),BB_LOCATIONS(i,2),BB_LOCATIONS(i,3) 
+!        CSWPLA,11,2,1,1,
+!        NSEL,S,LOC,X,0,BB_LOCATIONS(i,4)
+!        ESLN,R  
+!        EMODIF,ALL,MAT,3,  
+!        ALLSEL,ALL  
+!		i=i+1
+!		WPCSYS,-1,0
+!*enddo
+!
+!NUM_BC=32 !number of aggregate type C
+!*dim,BC_LOCATIONS,array,(NUM_BC+1),4
+!*VREAD,BC_LOCATIONS,BC_LOCATIONS,txt,,JIK,4,NUM_BC,,0,
+!(4F12.5)
+!*do,i,1,NUM_BC  !change material type of elements within aggregate type C
+!        WPCSYS,-1,0
+!		wpoff,BC_LOCATIONS(i,1),BC_LOCATIONS(i,2),BC_LOCATIONS(i,3) 
+!        CSWPLA,11,2,1,1,
+!        NSEL,S,LOC,X,0,BC_LOCATIONS(i,4)
+!        ESLN,R  
+!        EMODIF,ALL,MAT,4,  
+!        ALLSEL,ALL  
+!		i=i+1
+!		WPCSYS,-1,0
+!*enddo
+!
+!NUM_BD=122 !number of aggregate type D
+!*dim,BD_LOCATIONS,array,(NUM_BD+1),4
+!*VREAD,BD_LOCATIONS,BD_LOCATIONS,txt,,JIK,4,NUM_BD,,0,
+!(4F12.5)
+!*do,i,1,NUM_BD  !change material type of elements within aggregate type B
+!        WPCSYS,-1,0
+!		wpoff,BD_LOCATIONS(i,1),BD_LOCATIONS(i,2),BD_LOCATIONS(i,3) 
+!        CSWPLA,11,2,1,1,
+!        NSEL,S,LOC,X,0,BD_LOCATIONS(i,4)
+!        ESLN,R  
+!        EMODIF,ALL,MAT,5,  
+!        ALLSEL,ALL  
+!		i=i+1
+!		WPCSYS,-1,0
+!*enddo
+CSYS,0
+NUMCMP,ALL
+!!!!!!!!!!!!!!!!!!!!!!!!!!END OF MESHING
+TIME,1,
+EDWRITE,LSDYNA,'aggregate_disk','k',' ' 
