@@ -15,5 +15,5 @@ while i <= 2:
 		f.write('%3.3f' % k + '\t')
 	f.write('\n')
 	tmp_list = []
-	j=1
+	j=0
 	i+=1
