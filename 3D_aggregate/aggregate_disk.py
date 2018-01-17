@@ -1,4 +1,5 @@
-import math,random
+import math
+import random as rdm
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -19,16 +20,46 @@ ax.set_xlabel('x')
 ax.set_ylabel('y')
 ax.set_zlabel('z')
 
+NUM_F = 3   #number of fibres (number of CSYSs)
+i,j = 0,0
+tmp_list,tmp_CSYS,move_CSYS,rotation_CSYS = np.zeros((6)),np.zeros((NUM_F,6)),np.zeros((NUM_F,3)),np.zeros((NUM_F,3))
+f1 = open('move_CSYS.txt','w')
+f2 = open('rotation_CSYS.txt','w')
+while i < NUM_F:
+    while j < NUM_F*2:
+        if j < NUM_F:
+            tmp_list[j] = rdm.uniform(-100,0)
+        else:
+            tmp_list[j] = rdm.uniform(0,360)
+        j+=1
+    tmp_CSYS[i] = tmp_list
+    tmp_list = np.zeros((6))
+    j=0
+    i+=1
+i = 0
+while i < NUM_F:
+    move_CSYS[i] = tmp_CSYS[i][0:NUM_F]
+    rotation_CSYS[i] = tmp_CSYS[i][NUM_F:NUM_F*2]
+    for j in move_CSYS[i]:
+        f1.write('%3.3f' % j + '\t')
+    f1.write('\n')
+    for k in rotation_CSYS[i]:
+        f2.write('%3.3f' % k + '\t')
+    f2.write('\n')
+    i += 1
+f1.close()
+f2.close()
+
 #Location for aggregate type A
 NUM_BA = 5  #number of aggregate type A
 BA_LOCATIONS = np.zeros((NUM_BA,4))    #aggregate translation and rotation (x, y, z, radius)
 BA_CONT = 1  #aggregate counter
 while BA_CONT <= NUM_BA:
     BA_AVLB = 1
-    BA_R = random.uniform(0.004e3,0.005e3)
-    x_BA = random.uniform(-(DISK_R-BA_R-MIN_GAP),DISK_R-BA_R-MIN_GAP)
-    y_BA = random.uniform(-(math.sqrt((DISK_R-BA_R)**2-x_BA**2)-MIN_GAP),math.sqrt((DISK_R-BA_R)**2-x_BA**2)-MIN_GAP)
-    z_BA = random.uniform(-(DISK_T/2-BA_R-MIN_GAP),DISK_T/2-BA_R-MIN_GAP)
+    BA_R = rdm.uniform(0.004e3,0.005e3)
+    x_BA = rdm.uniform(-(DISK_R-BA_R-MIN_GAP),DISK_R-BA_R-MIN_GAP)
+    y_BA = rdm.uniform(-(math.sqrt((DISK_R-BA_R)**2-x_BA**2)-MIN_GAP),math.sqrt((DISK_R-BA_R)**2-x_BA**2)-MIN_GAP)
+    z_BA = rdm.uniform(-(DISK_T/2-BA_R-MIN_GAP),DISK_T/2-BA_R-MIN_GAP)
     if BA_CONT <= NUM_BA+1:
        for i in range(0,BA_CONT-1):
             if (BA_LOCATIONS[i,0]-x_BA)**2+(BA_LOCATIONS[i,1]-y_BA)**2+(BA_LOCATIONS[i,2]-z_BA)**2 > (BA_LOCATIONS[i,3]+BA_R)**2+MIN_GAP:
@@ -63,10 +94,10 @@ BB_LOCATIONS = np.zeros((NUM_BB,4))    #aggregate translation and rotation (x, y
 BB_CONT = 1  #aggregate counter
 while BB_CONT <= NUM_BB:
     BB_AVLB = 1
-    BB_R = random.uniform(0.003e3,0.004e3)
-    x_BB = random.uniform(-(DISK_R-BB_R-MIN_GAP),DISK_R-BB_R-MIN_GAP)
-    y_BB = random.uniform(-(math.sqrt((DISK_R-BB_R)**2-x_BB**2)-MIN_GAP),math.sqrt((DISK_R-BB_R)**2-x_BB**2)-MIN_GAP)
-    z_BB = random.uniform(-(DISK_T/2-BB_R-MIN_GAP),DISK_T/2-BB_R-MIN_GAP)
+    BB_R = rdm.uniform(0.003e3,0.004e3)
+    x_BB = rdm.uniform(-(DISK_R-BB_R-MIN_GAP),DISK_R-BB_R-MIN_GAP)
+    y_BB = rdm.uniform(-(math.sqrt((DISK_R-BB_R)**2-x_BB**2)-MIN_GAP),math.sqrt((DISK_R-BB_R)**2-x_BB**2)-MIN_GAP)
+    z_BB = rdm.uniform(-(DISK_T/2-BB_R-MIN_GAP),DISK_T/2-BB_R-MIN_GAP)
     if BB_CONT <= NUM_BB:
         for i in range(0,NUM_BA):
             if (BA_LOCATIONS[i,0]-x_BB)**2+(BA_LOCATIONS[i,1]-y_BB)**2+(BA_LOCATIONS[i,2]-z_BB)**2 > (BA_LOCATIONS[i,3]+BB_R)**2+MIN_GAP:
@@ -106,10 +137,10 @@ BC_LOCATIONS = np.zeros((NUM_BC,4))    #aggregate translation and rotation (x, y
 BC_CONT = 1  #aggregate counter
 while BC_CONT <= NUM_BC:
     BC_AVLB = 1
-    BC_R = random.uniform(0.002e3,0.003e3)
-    x_BC = random.uniform(-(DISK_R-BC_R-MIN_GAP),DISK_R-BC_R-MIN_GAP)
-    y_BC = random.uniform(-(math.sqrt((DISK_R-BC_R)**2-x_BC**2)-MIN_GAP),math.sqrt((DISK_R-BC_R)**2-x_BC**2)-MIN_GAP)
-    z_BC = random.uniform(-(DISK_T/2-BC_R-MIN_GAP),DISK_T/2-BC_R-MIN_GAP)
+    BC_R = rdm.uniform(0.002e3,0.003e3)
+    x_BC = rdm.uniform(-(DISK_R-BC_R-MIN_GAP),DISK_R-BC_R-MIN_GAP)
+    y_BC = rdm.uniform(-(math.sqrt((DISK_R-BC_R)**2-x_BC**2)-MIN_GAP),math.sqrt((DISK_R-BC_R)**2-x_BC**2)-MIN_GAP)
+    z_BC = rdm.uniform(-(DISK_T/2-BC_R-MIN_GAP),DISK_T/2-BC_R-MIN_GAP)
     if BC_CONT <= NUM_BC:
         for i in range(0,NUM_BA):
             if (BA_LOCATIONS[i,0]-x_BC)**2+(BA_LOCATIONS[i,1]-y_BC)**2+(BA_LOCATIONS[i,2]-z_BC)**2 > (BA_LOCATIONS[i,3]+BC_R)**2+MIN_GAP:
@@ -154,10 +185,10 @@ BD_LOCATIONS = np.zeros((NUM_BD,4))    #aggregate translation and rotation (x, y
 BD_CONT = 1  #aggregate counter
 while BD_CONT <= NUM_BD:
     BD_AVLB = 1
-    BD_R = random.uniform(0.001e3,0.002e3)
-    x_BD = random.uniform(-(DISK_R-BD_R-MIN_GAP),DISK_R-BD_R-MIN_GAP)
-    y_BD = random.uniform(-(math.sqrt((DISK_R-BD_R)**2-x_BD**2)-MIN_GAP),math.sqrt((DISK_R-BD_R)**2-x_BD**2)-MIN_GAP)
-    z_BD = random.uniform(-(DISK_T/2-BD_R-MIN_GAP),DISK_T/2-BD_R-MIN_GAP)
+    BD_R = rdm.uniform(0.001e3,0.002e3)
+    x_BD = rdm.uniform(-(DISK_R-BD_R-MIN_GAP),DISK_R-BD_R-MIN_GAP)
+    y_BD = rdm.uniform(-(math.sqrt((DISK_R-BD_R)**2-x_BD**2)-MIN_GAP),math.sqrt((DISK_R-BD_R)**2-x_BD**2)-MIN_GAP)
+    z_BD = rdm.uniform(-(DISK_T/2-BD_R-MIN_GAP),DISK_T/2-BD_R-MIN_GAP)
     if BD_CONT <= NUM_BD:
         for i in range(0,NUM_BA):
             if (BA_LOCATIONS[i,0]-x_BD)**2+(BA_LOCATIONS[i,1]-y_BD)**2+(BA_LOCATIONS[i,2]-z_BD)**2 > (BA_LOCATIONS[i,3]+BD_R)**2+MIN_GAP:
