@@ -1,4 +1,4 @@
-#coding:utf-8
+# coding:utf-8
 def demo1():
     import numpy as np
     import matplotlib.pyplot as plt
@@ -9,6 +9,7 @@ def demo1():
     ax.fill(x, y1, 'b', x, y2, 'r', alpha=0.3)
     plt.show()
     return
+
 
 def demo2():
     import numpy as np
@@ -21,16 +22,17 @@ def demo2():
     plt.show()
     return
 
+
 def demo3():
     import numpy as np
     import matplotlib.pyplot as plt
     font = {'family': 'serif',
-            'color':  'darkred',
+            'color': 'darkred',
             'weight': 'normal',
             'size': 16,
             }
     x = np.linspace(0.0, 5.0, 100)
-    y = np.cos(2*np.pi*x) * np.exp(-x)
+    y = np.cos(2 * np.pi * x) * np.exp(-x)
     plt.plot(x, y, 'k')
     plt.title('Damped exponential decay', fontdict=font)
     plt.text(2, 0.65, r'$\cos(2 \pi t) \exp(-t)$', fontdict=font)
@@ -41,18 +43,19 @@ def demo3():
     plt.show()
     return
 
+
 def demo4():
     import numpy as np
     import matplotlib.pyplot as plt
-    x = np.linspace(0, 2*np.pi, 50)
+    x = np.linspace(0, 2 * np.pi, 50)
     y = np.sin(x)
     y2 = y + 0.1 * np.random.normal(size=x.shape)
     fig, ax = plt.subplots()
     ax.plot(x, y, 'k--')
     ax.plot(x, y2, 'ro')
     # set ticks and tick labels
-    ax.set_xlim((0, 2*np.pi))
-    ax.set_xticks([0, np.pi, 2*np.pi])
+    ax.set_xlim((0, 2 * np.pi))
+    ax.set_xticks([0, np.pi, 2 * np.pi])
     ax.set_xticklabels(['0', '$\pi$', '2$\pi$'])
     ax.set_ylim((-1.5, 1.5))
     ax.set_yticks([-1, 0, 1])
@@ -67,15 +70,17 @@ def demo4():
     plt.show()
     return
 
+
 def demo5():
     import numpy as np
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d import Axes3D
     def lorenz(x, y, z, s=10, r=28, b=2.667):
-        x_dot = s*(y - x)
-        y_dot = r*x - y - x*z
-        z_dot = x*y - b*z
+        x_dot = s * (y - x)
+        y_dot = r * x - y - x * z
+        z_dot = x * y - b * z
         return x_dot, y_dot, z_dot
+
     dt = 0.01
     stepCnt = 10000
     # Need one more for the initial values
@@ -101,6 +106,7 @@ def demo5():
     plt.show()
     return
 
+
 def demo6():
     import matplotlib.pyplot as plt
     import matplotlib.tri as tri
@@ -113,18 +119,18 @@ def demo6():
     n_radii = 8
     min_radius = 0.25
     radii = np.linspace(min_radius, 0.95, n_radii)
-    angles = np.linspace(0, 2*math.pi, n_angles, endpoint=False)
+    angles = np.linspace(0, 2 * math.pi, n_angles, endpoint=False)
     angles = np.repeat(angles[..., np.newaxis], n_radii, axis=1)
-    angles[:, 1::2] += math.pi/n_angles
-    x = (radii*np.cos(angles)).flatten()
-    y = (radii*np.sin(angles)).flatten()
-    z = (np.cos(radii)*np.cos(angles*3.0)).flatten()
+    angles[:, 1::2] += math.pi / n_angles
+    x = (radii * np.cos(angles)).flatten()
+    y = (radii * np.sin(angles)).flatten()
+    z = (np.cos(radii) * np.cos(angles * 3.0)).flatten()
     # Create the Triangulation; no triangles so Delaunay triangulation created.
     triang = tri.Triangulation(x, y)
     # Mask off unwanted triangles.
     xmid = x[triang.triangles].mean(axis=1)
     ymid = y[triang.triangles].mean(axis=1)
-    mask = np.where(xmid*xmid + ymid*ymid < min_radius*min_radius, 1, 0)
+    mask = np.where(xmid * xmid + ymid * ymid < min_radius * min_radius, 1, 0)
     triang.set_mask(mask)
     # tripcolor plot.
     plt.figure()
@@ -155,22 +161,22 @@ def demo6():
         [-0.052, 1.022], [-0.052, 1.017], [-0.069, 1.010], [-0.064, 1.005],
         [-0.048, 1.005], [-0.031, 1.005], [-0.031, 0.996], [-0.040, 0.987],
         [-0.045, 0.980], [-0.052, 0.975], [-0.040, 0.973], [-0.026, 0.968],
-        [-0.020, 0.954], [-0.006, 0.947], [ 0.003, 0.935], [ 0.006, 0.926],
-        [ 0.005, 0.921], [ 0.022, 0.923], [ 0.033, 0.912], [ 0.029, 0.905],
-        [ 0.017, 0.900], [ 0.012, 0.895], [ 0.027, 0.893], [ 0.019, 0.886],
-        [ 0.001, 0.883], [-0.012, 0.884], [-0.029, 0.883], [-0.038, 0.879],
+        [-0.020, 0.954], [-0.006, 0.947], [0.003, 0.935], [0.006, 0.926],
+        [0.005, 0.921], [0.022, 0.923], [0.033, 0.912], [0.029, 0.905],
+        [0.017, 0.900], [0.012, 0.895], [0.027, 0.893], [0.019, 0.886],
+        [0.001, 0.883], [-0.012, 0.884], [-0.029, 0.883], [-0.038, 0.879],
         [-0.057, 0.881], [-0.062, 0.876], [-0.078, 0.876], [-0.087, 0.872],
         [-0.030, 0.907], [-0.007, 0.905], [-0.057, 0.916], [-0.025, 0.933],
         [-0.077, 0.990], [-0.059, 0.993]])
-    x = xy[:, 0]*180/3.14159
-    y = xy[:, 1]*180/3.14159
+    x = xy[:, 0] * 180 / 3.14159
+    y = xy[:, 1] * 180 / 3.14159
     triangles = np.asarray([
-        [67, 66,  1], [65,  2, 66], [ 1, 66,  2], [64,  2, 65], [63,  3, 64],
-        [60, 59, 57], [ 2, 64,  3], [ 3, 63,  4], [ 0, 67,  1], [62,  4, 63],
-        [57, 59, 56], [59, 58, 56], [61, 60, 69], [57, 69, 60], [ 4, 62, 68],
-        [ 6,  5,  9], [61, 68, 62], [69, 68, 61], [ 9,  5, 70], [ 6,  8,  7],
-        [ 4, 70,  5], [ 8,  6,  9], [56, 69, 57], [69, 56, 52], [70, 10,  9],
-        [54, 53, 55], [56, 55, 53], [68, 70,  4], [52, 56, 53], [11, 10, 12],
+        [67, 66, 1], [65, 2, 66], [1, 66, 2], [64, 2, 65], [63, 3, 64],
+        [60, 59, 57], [2, 64, 3], [3, 63, 4], [0, 67, 1], [62, 4, 63],
+        [57, 59, 56], [59, 58, 56], [61, 60, 69], [57, 69, 60], [4, 62, 68],
+        [6, 5, 9], [61, 68, 62], [69, 68, 61], [9, 5, 70], [6, 8, 7],
+        [4, 70, 5], [8, 6, 9], [56, 69, 57], [69, 56, 52], [70, 10, 9],
+        [54, 53, 55], [56, 55, 53], [68, 70, 4], [52, 56, 53], [11, 10, 12],
         [69, 71, 68], [68, 13, 70], [10, 70, 13], [51, 50, 52], [13, 68, 71],
         [52, 71, 69], [12, 10, 13], [71, 52, 50], [71, 14, 13], [50, 49, 71],
         [49, 48, 71], [14, 16, 15], [14, 71, 48], [17, 19, 18], [17, 20, 19],
@@ -185,7 +191,7 @@ def demo6():
     ymid = y[triangles].mean(axis=1)
     x0 = -5
     y0 = 52
-    zfaces = np.exp(-0.01*((xmid - x0)*(xmid - x0) + (ymid - y0)*(ymid - y0)))
+    zfaces = np.exp(-0.01 * ((xmid - x0) * (xmid - x0) + (ymid - y0) * (ymid - y0)))
     # Rather than create a Triangulation object, can simply pass x, y and triangles
     # arrays to tripcolor directly.  It would be better to use a Triangulation
     # object if the same triangulation was to be used more than once to save
@@ -210,7 +216,7 @@ def demo7():
     from matplotlib.colors import LightSource
     import matplotlib.pyplot as plt
     import numpy as np
-    
+
     filename = cbook.get_sample_data('jacksboro_fault_dem.npz', asfileobj=False)
     with np.load(filename) as dem:
         z = dem['elevation']
@@ -218,20 +224,21 @@ def demo7():
         x = np.linspace(dem['xmin'], dem['xmax'], ncols)
         y = np.linspace(dem['ymin'], dem['ymax'], nrows)
         x, y = np.meshgrid(x, y)
-    
+
     region = np.s_[5:50, 5:50]
     x, y, z = x[region], y[region], z[region]
-    
+
     fig, ax = plt.subplots(subplot_kw=dict(projection='3d'))
-    
+
     ls = LightSource(270, 45)
     # To use a custom hillshading mode, override the built-in shading and pass
     # in the rgb colors of the shaded surface calculated from "shade".
     rgb = ls.shade(z, cmap=cm.gist_earth, vert_exag=0.1, blend_mode='soft')
     surf = ax.plot_surface(x, y, z, rstride=1, cstride=1, facecolors=rgb,
                            linewidth=0, antialiased=False, shade=False)
-    
+
     plt.show()
     return
 
-demo8()
+
+demo1()
