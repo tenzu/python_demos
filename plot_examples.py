@@ -75,6 +75,7 @@ def demo5():
     import numpy as np
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d import Axes3D
+
     def lorenz(x, y, z, s=10, r=28, b=2.667):
         x_dot = s * (y - x)
         y_dot = r * x - y - x * z
@@ -191,7 +192,8 @@ def demo6():
     ymid = y[triangles].mean(axis=1)
     x0 = -5
     y0 = 52
-    zfaces = np.exp(-0.01 * ((xmid - x0) * (xmid - x0) + (ymid - y0) * (ymid - y0)))
+    zfaces = np.exp(-0.01 * ((xmid - x0) * (xmid - x0) +
+                             (ymid - y0) * (ymid - y0)))
     # Rather than create a Triangulation object, can simply pass x, y and triangles
     # arrays to tripcolor directly.  It would be better to use a Triangulation
     # object if the same triangulation was to be used more than once to save
@@ -217,7 +219,8 @@ def demo7():
     import matplotlib.pyplot as plt
     import numpy as np
 
-    filename = cbook.get_sample_data('jacksboro_fault_dem.npz', asfileobj=False)
+    filename = cbook.get_sample_data(
+        'jacksboro_fault_dem.npz', asfileobj=False)
     with np.load(filename) as dem:
         z = dem['elevation']
         nrows, ncols = z.shape
