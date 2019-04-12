@@ -7,7 +7,8 @@ f2 = open('groups.txt', 'w')
 stulist = []
 for line in f1.readlines():
     if line[:-1].strip():
-        stulist.append('Class ' + line.split('\t')[2] + '    ' + line.split('\t')[4] + '    ' + line.split('\t')[3])
+        stulist.append('Class ' + line.split('\t')[2] + '    ' +
+                       line.split('\t')[4] + '    ' + line.split('\t')[3])
         # stulist.append(+line.split('\t')[4])
 stulist_len = len(stulist)
 grp_len = 5

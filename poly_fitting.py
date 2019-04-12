@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 x = np.linspace(0, 2 * np.pi, 101)
-y = x ** 3 + 10
+y = x**3 + 10
 z = np.polyfit(x, y, 3)  # curve fitting by cubic polynomial
 p = np.poly1d(z)
 yvals = np.polyval(z, x)

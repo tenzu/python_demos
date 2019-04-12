@@ -7,7 +7,7 @@ x0, y0 = [1, 2, 3, 4], [1, 8, 27, 64]
 x1, y1 = list(map(float, x0)), list(map(float, y0))
 x = 5.5
 print('The interpolation result is:', interpolate.lagrange(x1, y1)(x))
-print('The result of x^3 is:', x ** 3)
+print('The result of x^3 is:', x**3)
 
 plt.title('Lagrangian Interpolation')
 plt.xlabel(u'X-axis')

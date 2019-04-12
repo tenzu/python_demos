@@ -42,7 +42,7 @@ def aggregate_plot():
             ax.plot_surface(cx, cy, cz, color='r')
 
     plt.show()
-    return;
+    return
 
 
 while True:
@@ -50,4 +50,4 @@ while True:
     if aggregate_type in ['a', 'A', 'b', 'B', 'c', 'C', 'd', 'D']:
         aggregate_plot()
     else:
-        break;
+        break
