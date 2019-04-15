@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # coding=utf-8
-import random, time, os
+import random
 
 f1 = open('students.txt', 'r', encoding='utf-8')
 f2 = open('rand_choice.txt', 'a')
