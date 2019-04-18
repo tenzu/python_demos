@@ -1,4 +1,4 @@
-motorcycles = ['honda', 'yamaha', 'suzuki', 'ducati'] 
+motorcycles = ['honda', 'yamaha', 'suzuki', 'ducati']
 print(motorcycles)
 
 too_expensive = 'ducati'
