@@ -7,7 +7,7 @@ C = 2.0  # damping coefficient of SDOF
 K = 25  # stiffness coefficient of SDOF
 F0 = 20  # peak force
 td = 5  # force duration
-dt = 0.01  # time step
+dt = 0.001  # time step
 T = 60  # time to stop outputting
 V0 = 0  # initial velocity
 U0 = 0  # initial displacement
@@ -30,8 +30,8 @@ for i in range(0, int(T / dt), 1):
         A.append(Force(i * dt) / M)
     else:
         A.append((1 / M) * (Force(i * dt) - C * V[-1] - K * U[-1]))
-        V.append(V[-1] + 0.5 * (A[-1] + A[-1]) * dt)
-        U.append(U[-1] + 0.5 * (V[-1] + V[-1]) * dt)
+        V.append(V[-1] + A[-1] * dt)
+        U.append(U[-1] + V[-1] * dt + 0.5 * A[-1] * dt**2)
 
 f1 = interp1d(Tl, A, kind='cubic')
 f2 = interp1d(Tl, V, kind='cubic')
@@ -43,3 +43,4 @@ plt.plot(Tl, f1(Tl), 'r-.', Tl, f2(Tl), 'g--', Tl, f3(Tl), 'b-')
 plt.legend(['Acceleration', 'Velocity', 'Displacement'], loc=1)
 
 plt.show()
+print("The maximum displacement would be " + str(max(U)) + ".")
