@@ -1,4 +1,5 @@
-age = 17
+print("Please input your age:")
+age = int(input())
 if age >= 18:
     print("You are old enough to vote!")
     print("Have you registered to vote yet?")
