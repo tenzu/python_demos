@@ -10,25 +10,9 @@
             "name": "Python: Current File (Integrated Terminal)",
             "type": "python",
             "request": "launch",
-            "stopOnEntry": true,
+            "stopOnEntry": false,
             "program": "${file}",
             "console": "integratedTerminal"
-            "args": [
-                "param_one",
-                "param_two"
-            ]
         },
-        {
-            "name": "Python: Current File (External Terminal)",
-            "type": "python",
-            "request": "launch",
-            "stopOnEntry": true,
-            "program": "${file}",
-            "console": "externalTerminal"
-            "args": [
-                "param_one",
-                "param_two"
-            ]
-        }
     ]
 }
