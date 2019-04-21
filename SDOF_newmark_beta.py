@@ -9,9 +9,9 @@ zeta = 0.05  # damping ratio
 omega_N = math.sqrt(K / M)  # natural frequency
 C = zeta * 2 * M * omega_N  # damping coefficient of SDOF
 F0 = 1000  # peak force
-td = 0.6  # force duration
-dt = 0.05  # time step
-T = 1.2  # time to stop outputting
+td = 2  # force duration
+dt = 0.0001  # time step
+T = 20  # time to stop outputting
 V0 = 0  # initial velocity
 U0 = 0  # initial displacement
 F, A, V, U = [], [], [], [
@@ -23,21 +23,21 @@ beta = 1.0 / 6
 
 def Force(t):
     if t >= 0 and t <= td:
-        # return F0 * (1 - t / td)
-        return F0 * math.sin(t / td * math.pi)
+        return F0 * (1 - t / td)
+        # return F0 * math.sin(t / td * math.pi)
     else:
         return 0
 
 
 for i in range(0, int(T / dt), 1):
     if i == 0:
-        F.append(Force(i * dt))
-        A.append(Force(i * dt) / M)
+        F.append(F0)
+        A.append(F0 / M)
         V.append(V0)
         U.append(U0)
     else:
         F.append(Force(i * dt))
-        A.append((1 / M) * (Force(i * dt) - C * V[-1] - K * U[-1])) # some problem here !!!!
+        A.append((1 / M) * (Force(i * dt) - C * V[-1] - K * U[-1]))
         V.append(V[-1] + (1 - gamma) * A[-2] * dt + gamma * A[-1] * dt)
         U.append(U[-1] + V[-2] * dt + (1.0 / 2 - beta) * A[-2] * dt**2 +
                  beta * A[-1] * dt**2)

@@ -31,7 +31,7 @@ for i in range(0, int(T / dt), 1):
     else:
         A.append((1 / M) * (Force(i * dt) - C * V[-1] - K * U[-1]))
         V.append(V[-1] + A[-1] * dt)
-        U.append(U[-1] + V[-1] * dt + 0.25 * (A[-1] + A[-2]) * dt**2)
+        U.append(U[-1] + V[-1] * dt + (1 / 4) * (A[-1] + A[-2]) * dt**2)
 
 f1 = interp1d(Tl, A, kind='cubic')
 f2 = interp1d(Tl, V, kind='cubic')
