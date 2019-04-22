@@ -76,7 +76,7 @@ plt.xlabel(u'Time (s)')
 plt.ylabel(u'Y-axis')
 # plt.plot(Tl, f1(Tl), 'r-.', Tl, f2(Tl), 'g--', Tl, f3(Tl), 'b-')
 plt.plot(Tl, f31(Tl), 'b-', Tl, f32(Tl), 'r-', Tl, f32(Tl) - f31(Tl), 'y--')
-plt.legend(['Acceleration', 'Velocity', 'Displacement'], loc=1)
+plt.legend(['1st DOF Disp.', '2nd DOF Disp.', 'Disp.2 - Disp.1'], loc=1)
 
 plt.show()
 print("The maximum displacement of the 1st DOF would be " +
