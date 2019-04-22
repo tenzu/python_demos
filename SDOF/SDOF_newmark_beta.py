@@ -51,7 +51,8 @@ plt.xlabel(u'Time (s)')
 plt.ylabel(u'Y-axis')
 # plt.plot(Tl, f1(Tl), 'r-.', Tl, f2(Tl), 'g--', Tl, f3(Tl), 'b-')
 plt.plot(Tl, f3(Tl), 'b-')
-plt.legend(['Acceleration', 'Velocity', 'Displacement'], loc=1)
+# plt.legend(['Acceleration', 'Velocity', 'Displacement'], loc=1)
+plt.legend(['Displacement'], loc=1)
 
 plt.show()
 print("The maximum displacement would be " + str(("%5.3f" % (max(U) * 1000))) +
