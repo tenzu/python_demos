@@ -1,46 +1,40 @@
-# This is an example of Newmark-beta method
+# This is an example of linear acceleration method
 # to output response of an SDOF.
-import math
 from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
-M = 253.3  # mass of SDOF
-K = 10000  # stiffness coefficient of SDOF
-zeta = 0.05  # damping ratio
-omega_N = math.sqrt(K / M)  # natural frequency
-C = zeta * 2 * M * omega_N  # damping coefficient of SDOF
-F0 = 1000  # peak force
-td = 2  # force duration
-dt = 0.0001  # time step
-T = 20  # time to stop outputting
+M = 10  # mass of SDOF
+C = 2.0  # damping coefficient of SDOF
+K = 25  # stiffness coefficient of SDOF
+F0 = 20  # peak force
+td = 5  # force duration
+dt = 0.005  # time step
+T = 60  # time to stop outputting
 V0 = 0  # initial velocity
 U0 = 0  # initial displacement
-F, A, V, U = [], [], [], [
+A, V, U = [], [], [
 ]  # list of acceleration, velocity, and displacement respectively
 Tl = [i * dt for i in range(0, int(T / dt), 1)]  # list of time
-gamma = 1.0 / 2
-beta = 1.0 / 6
 
 
 def Force(t):
     if t >= 0 and t <= td:
         return F0 * (1 - t / td)
-        # return F0 * math.sin(t / td * math.pi)
     else:
         return 0
 
 
 for i in range(0, int(T / dt), 1):
     if i == 0:
-        F.append(F0)
-        A.append(F0 / M)
+        A.append(Force(i * dt) / M)
         V.append(V0)
         U.append(U0)
     else:
-        F.append(Force(i * dt))
-        A.append((1 / M) * (Force(i * dt) - C * V[-1] - K * U[-1]))
-        V.append(V[-1] + (1 - gamma) * A[-2] * dt + gamma * A[-1] * dt)
-        U.append(U[-1] + V[-2] * dt + (1.0 / 2 - beta) * A[-2] * dt**2 +
-                 beta * A[-1] * dt**2)
+        A.append((Force(i * dt) - C * (V[-1] + dt / 2 * A[-1]) - K *
+                  (U[-1] + dt * V[-1] + dt**2 / 4 * A[-1])) /
+                 (M + dt / 2 * C + dt**2 / 4 * K))
+        V.append(V[-1] + A[-1] * dt)
+        U.append(U[-1] + V[-1] * dt + (1 / 3) * A[-2] * dt**2 +
+                 (1 / 6) * A[-1] * dt**2)
 
 f1 = interp1d(Tl, A, kind='cubic')
 f2 = interp1d(Tl, V, kind='cubic')

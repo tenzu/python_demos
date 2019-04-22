@@ -1,4 +1,4 @@
-# This is an example of constant average acceleration method
+# This is an example of constant acceleration method
 # to output response of an SDOF.
 from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
@@ -25,13 +25,15 @@ def Force(t):
 
 for i in range(0, int(T / dt), 1):
     if i == 0:
+        A.append(Force(i * dt) / M)
         V.append(V0)
         U.append(U0)
-        A.append(Force(i * dt) / M)
     else:
-        A.append((1 / M) * (Force(i * dt) - C * V[-1] - K * U[-1]))
+        A.append((Force(i * dt) - C * (V[-1] + dt / 2 * A[-1]) - K *
+                  (U[-1] + dt * V[-1] + dt**2 / 4 * A[-1])) /
+                 (M + dt / 2 * C + dt**2 / 4 * K))
         V.append(V[-1] + A[-1] * dt)
-        U.append(U[-1] + V[-1] * dt + (1 / 4) * (A[-1] + A[-2]) * dt**2)
+        U.append(U[-1] + V[-1] * dt + 0.5 * A[-1] * dt**2)
 
 f1 = interp1d(Tl, A, kind='cubic')
 f2 = interp1d(Tl, V, kind='cubic')
