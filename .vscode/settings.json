@@ -1,7 +1,5 @@
 {
     "python.linting.flake8Enabled": true,
-
     "python.formatting.provider": "yapf",
-
-    "python.terminal.executeInFileDir": true
+    "python.terminal.executeInFileDir": true,
 }
