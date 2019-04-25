@@ -1,5 +1,6 @@
 """已知bug1：scores.txt里要删除表头；
    已知bug2：缓考记录会导致脚本无法运行，需删除。"""
+import numpy as np
 import pygal
 f1 = open('scores.txt', 'r')
 stu_numbers = []  # student campus number
@@ -9,38 +10,75 @@ exam_performances = []  # final exam performance
 final_scores = []  # score summary
 for line in f1.readlines():
     if line[:-1].strip():
-        stu_numbers.append(line.split('\t')[1])
-        stu_names.append(line.split('\t')[2])
-        usual_performances.append(line.split('\t')[5])
-        exam_performances.append(line.split('\t')[4])
-        final_scores.append(line.split('\t')[7])
+        stu_numbers.append(line.split()[1])
+        stu_names.append(line.split()[2])
+        usual_performances.append(int(line.split()[5]))
+        exam_performances.append(int(line.split()[4]))
+        final_scores.append(int(line.split()[7]))
 
-frequencies = [0, 0, 0, 0, 0]
+frequencies = [0, 0, 0, 0, 0]  # frequencies of score levels
+scores_1 = []  # scores of level 1
+scores_2 = []  # scores of level 2
+scores_3 = []  # scores of level 3
+scores_4 = []  # scores of level 4
+scores_5 = []  # scores of level 5
 for value in final_scores:
     if int(value) >= 0 and int(value) < 60:
-        frequencies[0] += 1
+        scores_1.append(value)
+        frequencies[0] += 1  # frequency of level 1
     elif int(value) >= 60 and int(value) < 70:
-        frequencies[1] += 1
+        scores_2.append(value)
+        frequencies[1] += 1  # frequency of level 2
     elif int(value) >= 70 and int(value) < 80:
-        frequencies[2] += 1
+        scores_3.append(value)
+        frequencies[2] += 1  # frequency of level 3
     elif int(value) >= 80 and int(value) < 90:
-        frequencies[3] += 1
+        scores_4.append(value)
+        frequencies[3] += 1  # frequency of level 4
     elif int(value) >= 90 and int(value) <= 100:
-        frequencies[4] += 1
+        scores_5.append(value)
+        frequencies[4] += 1  # frequency of level 5
     else:
         print("Score error!")
         break
 
-# bar chart
-final_score_bar = pygal.Bar()
-final_score_bar.title = "Final score analysis"
-final_score_bar.x_labels = [
+mean = [
+    np.mean(scores_1),
+    np.mean(scores_2),
+    np.mean(scores_3),
+    np.mean(scores_4),
+    np.mean(scores_5)
+]  # mean of levels
+std = [
+    np.std(scores_1),
+    np.std(scores_2),
+    np.std(scores_3),
+    np.std(scores_4),
+    np.std(scores_5)
+]  # standard deviations of levels
+
+# bar chart 1
+final_score_bar1 = pygal.Bar()
+final_score_bar1.title = "Final score intervals"
+final_score_bar1.x_labels = [
     'Fail', '60 - 70', '70 - 80', '80 - 90', '90 - 100'
 ]
-final_score_bar._x_title = "Final score interval"
-final_score_bar._y_title = "Final score frequency"
-final_score_bar.add("sub-total", frequencies)
-final_score_bar.render_to_file('Final_score_bar.svg')
+final_score_bar1._x_title = "Final score intervals"
+final_score_bar1._y_title = "Final score frequency"
+final_score_bar1.add("Sub-total", frequencies)
+final_score_bar1.render_to_file('Final_score_bar1.svg')
+
+# bar chart 2
+final_score_bar2 = pygal.Bar()
+final_score_bar2.title = "Final score means and standard deviations"
+final_score_bar2.x_labels = [
+    'Fail', '60 - 70', '70 - 80', '80 - 90', '90 - 100'
+]
+final_score_bar2._x_title = "Final score intervals"
+final_score_bar2._y_title = "Final score means and STD.s"
+final_score_bar2.add("Mean", mean)
+final_score_bar2.add("STD.", std)
+final_score_bar2.render_to_file('Final_score_bar2.svg')
 
 # pie chart
 final_score_pie = pygal.Pie()
