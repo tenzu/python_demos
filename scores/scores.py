@@ -1,10 +1,10 @@
 import pygal
 f1 = open('scores.txt', 'r')
-stu_numbers = []
-stu_names = []
-usual_performances = []
-exam_performances = []
-final_scores = []
+stu_numbers = []  # student campus number
+stu_names = []  # student name
+usual_performances = []  # usual performance
+exam_performances = []  # final exam performance
+final_scores = []  # score summary
 for line in f1.readlines():
     if line[:-1].strip():
         stu_numbers.append(line.split('\t')[1])
