@@ -1,3 +1,5 @@
+"""已知bug1：scores.txt里要删除表头；
+   已知bug2：缓考记录会导致脚本无法运行，需删除。"""
 import pygal
 f1 = open('scores.txt', 'r')
 stu_numbers = []  # student campus number
