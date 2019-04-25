@@ -31,6 +31,7 @@ for value in final_scores:
         print("Score error!")
         break
 
+# bar chart
 final_score_bar = pygal.Bar()
 final_score_bar.title = "Final score analysis"
 final_score_bar.x_labels = [
@@ -39,4 +40,14 @@ final_score_bar.x_labels = [
 final_score_bar._x_title = "Final score interval"
 final_score_bar._y_title = "Final score frequency"
 final_score_bar.add("sub-total", frequencies)
-final_score_bar.render_to_file('Final_score.svg')
+final_score_bar.render_to_file('Final_score_bar.svg')
+
+# pie chart
+final_score_pie = pygal.Pie()
+final_score_pie.title = "Final score percentage (%)"
+final_score_pie.add('90 - 100', frequencies[4] / len(stu_numbers) * 100)
+final_score_pie.add('80 - 90', frequencies[3] / len(stu_numbers) * 100)
+final_score_pie.add('70 - 80', frequencies[2] / len(stu_numbers) * 100)
+final_score_pie.add('60 - 70', frequencies[1] / len(stu_numbers) * 100)
+final_score_pie.add('Fail', frequencies[0] / len(stu_numbers) * 100)
+final_score_pie.render_to_file('Final_score_pie.svg')
