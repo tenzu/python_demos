@@ -3,6 +3,7 @@
 import math
 from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
+
 M1 = 2801  # mass of the 1st DOF
 M2 = 2801  # mass of the 2nd DOF
 K1 = 24517E3  # stiffness coefficient of the 1st DOF

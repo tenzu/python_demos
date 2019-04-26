@@ -1,4 +1,5 @@
-import os, shutil
+import os
+import shutil
 
 for i in range(1, 5, 1):
     fp = open('test%0.2d.txt' % (i), 'w')

@@ -1,5 +1,3 @@
-#!/usr/bin/python
-# coding=utf-8
 import random
 
 f1 = open('students.txt', 'r', encoding='utf-8')
