@@ -1,6 +1,4 @@
-#!/usr/bin/python
-# coding=utf-8
-import random, time, os
+import random
 
 f1 = open('students.txt', 'r')
 f2 = open('groups.txt', 'w')
