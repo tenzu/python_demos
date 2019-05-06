@@ -1,13 +1,19 @@
-#!/usr/bin/python
-# coding=utf-8
-import random, time, os
+import random
+import time
 
 f1 = open('students.txt', 'r')
 stulist = []
 for line in f1.readlines():
-    if line[:-1].strip():
-        stulist.append('Class ' + line.split('\t')[2] + '    ' +
-                       line.split('\t')[4] + '    ' + line.split('\t')[3])
+    try:
+        if line[:-1].strip():
+            stulist.append(line.split('\t')[2] + '    ' + line.split('\t')[3])
+    except ValueError:
+        if line.split()[0] == '序号':
+            continue
+        else:
+            print('Abnormal data!!!')
+    else:
+        continue
 r_num = random.randint(5, 12)
 print("The magic number is:"), r_num
 list1 = random.sample(stulist, r_num)
