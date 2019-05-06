@@ -1,5 +1,3 @@
-"""已知bug1：scores.txt里要删除表头；
-   已知bug2：缓考记录会导致脚本无法运行，需删除。"""
 import numpy as np
 import pygal
 f1 = open('scores.txt', 'r')
@@ -9,12 +7,21 @@ usual_performances = []  # usual performance
 exam_performances = []  # final exam performance
 final_scores = []  # score summary
 for line in f1.readlines():
-    if line[:-1].strip():
-        stu_numbers.append(line.split()[1])
-        stu_names.append(line.split()[2])
-        usual_performances.append(int(line.split()[5]))
-        exam_performances.append(int(line.split()[4]))
-        final_scores.append(int(line.split()[7]))
+    try:
+        if line[:-1].strip():
+            stu_numbers.append(line.split()[1])
+            stu_names.append(line.split()[2])
+            usual_performances.append(int(line.split()[5]))
+            exam_performances.append(int(line.split()[4]))
+            final_scores.append(int(line.split()[7]))
+    except ValueError:
+        if line.split()[0] == '序号':
+            continue
+        else:
+            print(line.split()[1] + ' ' + line.split()[2] +
+                  ' abnormal data!!!')
+    else:
+        continue
 
 frequencies = [0, 0, 0, 0, 0]  # frequencies of score levels
 scores_1 = []  # scores of level 1
