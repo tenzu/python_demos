@@ -4,10 +4,22 @@ f1 = open('students.txt', 'r')
 f2 = open('groups.txt', 'w')
 stulist = []
 for line in f1.readlines():
-    if line[:-1].strip():
-        stulist.append('Class ' + line.split('\t')[2] + '    ' +
-                       line.split('\t')[4] + '    ' + line.split('\t')[3])
-        # stulist.append(+line.split('\t')[4])
+    try:
+        if line[:-1].strip():
+            if line.split()[3] == '重修':  # skip '重修'
+                continue
+            elif line.split()[3] == '修读类别':  # skip title (if it exists)
+                continue
+            else:
+                stulist.append(
+                    line.split('\t')[2] + '    ' + line.split('\t')[3])
+    except ValueError:
+        if line.split()[0] == '序号':  # skip title (if it exists)
+            continue
+        else:
+            print('Abnormal data!!!')  # skip '缓考', '缺考', etc.
+    else:
+        continue
 stulist_len = len(stulist)
 grp_len = 5
 j = 1
