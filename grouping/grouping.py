@@ -1,4 +1,5 @@
 import random
+# import os
 
 f1 = open('students.txt', 'r')
 f2 = open('groups.txt', 'w')
@@ -41,3 +42,5 @@ f2.write('Ungrouped student(s):\n')
 for i in stulist:
     print(i)
     f2.write(i + '\n')
+
+# os.system('pause')

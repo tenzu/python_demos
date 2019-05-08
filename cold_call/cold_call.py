@@ -1,5 +1,6 @@
 import random
 import time
+# import os
 
 f1 = open('students.txt', 'r')
 stulist = []
@@ -29,3 +30,5 @@ f2.write('Cold call on: ' +
          '\n' + 'Totally ' + str(r_num) + ' students this time.' + '\n')
 for i in list1:
     f2.write(i + '\n')
+
+# os.system('pause')
