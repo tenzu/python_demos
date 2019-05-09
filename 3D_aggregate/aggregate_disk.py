@@ -2,7 +2,7 @@ import math
 import random as rdm
 import numpy as np
 import matplotlib.pyplot as plt
-# from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.mplot3d import Axes3D
 
 RD1 = np.linspace(0, 2 * np.pi, 8)
 RD2 = np.linspace(0, np.pi, 8)
