@@ -1,7 +1,5 @@
-import math, random
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 
 
 def aggregate_plot():
@@ -16,9 +14,7 @@ def aggregate_plot():
 
     RD1 = np.linspace(0, 2 * np.pi, 8)
     RD2 = np.linspace(0, np.pi, 8)
-    TD_RATIO = 0.4
     DISK_R = 0.0375e3  # disk radius
-    DISK_T = DISK_R * TD_RATIO  # disk thickness
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     ax.set_xlim([-DISK_R, DISK_R])
