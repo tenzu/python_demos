@@ -1,18 +1,13 @@
-# coding:utf-8
 import numpy as np
+from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
-from scipy import interpolate
 
-x = np.arange(0, 2 * np.pi + np.pi / 4, 2 * np.pi / 8)
-y = np.sin(x)
-f = interpolate.splrep(x, y)
-x1 = np.arange(0, 2 * np.pi + np.pi / 4, np.pi / 50)
-y1 = interpolate.splev(x1, f)
+x = np.linspace(0, 10, num=11, endpoint=True)
+y = np.cos(-x**2 / 9.0)
+f = interp1d(x, y)
+f2 = interp1d(x, y, kind='cubic')
 
-plt.title('Spline Interpolation')
-plt.xlabel(u'X-axis')
-plt.ylabel(u'Y-axis')
-plt.plot(x, y, 'k+', x, y, 'g:', x1, y1, 'b--', x1, np.sin(x1), 'r-.')
-plt.axis([-0.05, 2 * np.pi + 0.05, -1.05, 1.05])
-plt.legend(['Data', 'Linear', 'Cubic Spline', 'True'], loc=3)
+xnew = np.linspace(0, 10, num=41, endpoint=True)
+plt.plot(x, y, 'o', xnew, f(xnew), '-', xnew, f2(xnew), '--')
+plt.legend(['data', 'linear', 'cubic'], loc='best')
 plt.show()
