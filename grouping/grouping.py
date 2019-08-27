@@ -1,7 +1,7 @@
 import random
 # import os
 
-f1 = open('students.txt', 'r')
+f1 = open('students_old.txt', 'r')
 f2 = open('groups.txt', 'w')
 stulist = []
 for line in f1.readlines():
