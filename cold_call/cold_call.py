@@ -43,4 +43,6 @@ f2.write('Cold call on: ' +
 for i in list1:
     f2.write(i + '\n')
 
+f1.close()
+f2.close()
 # os.system('pause')

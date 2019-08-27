@@ -36,4 +36,7 @@ a = random.choice(stulist)
 print(a)
 f2.write(a + '\n')
 
+f1.close()
+f2.close()
+
 # os.system('pause')

@@ -54,4 +54,7 @@ for i in stulist:
     print(i)
     f2.write(i + '\n')
 
+f1.close()
+f2.close()
+
 # os.system('pause')
