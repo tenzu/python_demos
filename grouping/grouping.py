@@ -1,26 +1,37 @@
 import random
 # import os
 
-f1 = open('students_old.txt', 'r')
+f1 = open('students.txt', 'r')
 f2 = open('groups.txt', 'w')
 stulist = []
-for line in f1.readlines():
-    try:
-        if line[:-1].strip():
-            if line.split()[3] == '重修':  # skip '重修'
-                continue
-            elif line.split()[3] == '修读类别':  # skip title (if it exists)
+
+
+def read_students_old():
+    for line in f1.readlines():
+        try:
+            if line[:-1].strip():
+                if line.split()[3] == '重修':  # skip '重修'
+                    continue
+                elif line.split()[3] == '修读类别':  # skip title (if it exists)
+                    continue
+                else:
+                    stulist.append(
+                        line.split('\t')[2] + '    ' + line.split('\t')[3])
+        except ValueError:
+            if line.split()[0] == '序号':  # skip title (if it exists)
                 continue
             else:
-                stulist.append(
-                    line.split('\t')[2] + '    ' + line.split('\t')[3])
-    except ValueError:
-        if line.split()[0] == '序号':  # skip title (if it exists)
-            continue
+                print('Abnormal data!!!')  # skip '缓考', '缺考', etc.
         else:
-            print('Abnormal data!!!')  # skip '缓考', '缺考', etc.
-    else:
-        continue
+            continue
+
+
+def read_students():
+    for line in f1.readlines():
+        stulist.append(line.split('\t')[1] + '    ' + line.split('\t')[2])
+
+
+read_students()
 stulist_len = len(stulist)
 grp_len = 5
 j = 1

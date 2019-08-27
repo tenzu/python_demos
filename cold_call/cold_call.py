@@ -1,9 +1,8 @@
 import random
 import time
-from itertools import islice
 # import os
 
-f1 = open('students_old.txt', 'r')
+f1 = open('students.txt', 'r')
 stulist = []
 
 
@@ -25,7 +24,12 @@ def read_students_old():
             continue
 
 
-read_students_old()
+def read_students():
+    for line in f1.readlines():
+        stulist.append(line.split('\t')[1] + '    ' + line.split('\t')[2])
+
+
+read_students()
 
 r_num = random.randint(5, 12)
 print("The magic number is:"), r_num
