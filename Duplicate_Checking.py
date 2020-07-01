@@ -1,6 +1,6 @@
 #This is a script to summarize duplicate checking resutls
 import os
-path = r'D:\123'
+path = r'D:\123'    #!!!confirm the path first!!!
 PDF_Names = []
 #Final_List = []
 f = open("List.txt", "w+")
