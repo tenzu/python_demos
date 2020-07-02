@@ -4,8 +4,8 @@
 # 3. 所有查重结果都保存详细报告（pdf文件）
 import os
 Parent_Dir = r'D:\teaching\FYP documents\2020\查重'  # !!!confirm the path first!!!
-Sub_Dir=os.listdir(Parent_Dir)  # 查重文件路径
-Current_Dir=[]  # 以老师姓名命名的子文件夹
+Sub_Dir=os.listdir(Parent_Dir)  # 查重文件路径做成list
+Current_Dir=[]  # 查重结果文件绝对路径list
 for i in range(len(Sub_Dir)):
     Current_Dir.append(Parent_Dir+'\\'+Sub_Dir[i])  # 查重结果文件绝对路径list
 PDF_Names = []  # 查重文件目录list
