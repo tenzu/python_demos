@@ -9,7 +9,6 @@ def sigmoid(x):
     return 1/(1+exp(-x))
 
 
-for i in range(len(X1)):
-    #X1[i] = 1 / (1 + exp(-X1[i]))
+for i in range(0, len(X1), 1):
     X1[i] = sigmoid(X1[i])
 print(X1)
