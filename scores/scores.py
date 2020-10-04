@@ -1,6 +1,6 @@
 import numpy as np
 import pygal
-f1 = open('3015scores.txt', 'r')
+f1 = open('3016scores.txt', 'r')
 stu_numbers = []  # student campus number
 stu_names = []  # student name
 usual_performances = []  # usual performance
