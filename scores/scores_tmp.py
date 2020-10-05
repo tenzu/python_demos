@@ -30,6 +30,7 @@ def fileOpen():  # filter all txt files in current path
 
 def mainProc():
     for txt in txtFiles:
+        print(txt+" is under processing.")
         f = open(txt, 'r')
         for line in f.readlines():
             try:
@@ -82,8 +83,9 @@ def mainProc():
                 np.std(scores_5)
             ]  # standard deviations of levels
 
-        print(txt)
+        print(txt+" finished.")
         f.close()
+    print("All files finished.")
 
 
 def chartPlotting():
