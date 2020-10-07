@@ -3,6 +3,9 @@ import pygal
 import os
 
 # global variables
+currentPath = os.getcwd()   # get current path
+files = os.listdir(currentPath)  # collect all files in current path
+txtFiles = []   # names of txt files will be stored in this list
 stu_numbers = []  # student campus number
 stu_names = []  # student name
 usual_performances = []  # usual performance
@@ -16,14 +19,10 @@ scores_4 = []  # scores of level 4
 scores_5 = []  # scores of level 5
 mean = []  # list of mean values
 std = []  # list of standard deviations
-groupList = []
+groupList = []  # data from different txt files will be stored in this list
 
 
 def fileOpen():  # filter all txt files in current path
-    global currentPath, files, txtFiles
-    currentPath = os.getcwd()
-    files = os.listdir(currentPath)
-    txtFiles = []
     for txt in files:
         if 'txt' in txt:  # filter all txt files
             txtFiles.append(txt)
@@ -96,8 +95,8 @@ def mainProc():
     print("All files finished.")
 
 
-def chartPlotting():
-    # bar chart 1
+def barChart1Plotting():
+    print('Now plotting bar chart 1.')
     final_score_bar1 = pygal.Bar()
     final_score_bar1.title = "Final score intervals"
     final_score_bar1.x_labels = [
@@ -105,10 +104,13 @@ def chartPlotting():
     ]
     final_score_bar1._x_title = "Final score intervals"
     final_score_bar1._y_title = "Final score frequency"
-    final_score_bar1.add("Sub-total", frequencies)
-    final_score_bar1.render_to_file('Final_score_bar1.svg')
+    for txt in txtFiles:
+        final_score_bar1.add(
+            "Sub-total " + txt[:4], groupList[txtFiles.index(txt)][5])
+        final_score_bar1.render_to_file('Final_score_bar1.svg')
 
-    # bar chart 2
+
+def barChart2Plotting():
     final_score_bar2 = pygal.Bar()
     final_score_bar2.title = "Final score means and standard deviations"
     final_score_bar2.x_labels = [
@@ -116,22 +118,32 @@ def chartPlotting():
     ]
     final_score_bar2._x_title = "Final score intervals"
     final_score_bar2._y_title = "Final score means and STD.s"
-    final_score_bar2.add("Mean", mean)
-    final_score_bar2.add("STD.", std)
+    for i in range(len(groupList)):
+        final_score_bar2.add("Mean " + str(i), groupList[i][11])
+    for i in range(len(groupList)):
+        final_score_bar2.add("STD." + str(i), groupList[i][12])
     final_score_bar2.render_to_file('Final_score_bar2.svg')
 
-    # pie chart
+
+def pieChartPlotting():
+    print('Now plotting pie chart.')
     final_score_pie = pygal.Pie()
     final_score_pie.title = "Final score percentage (%)"
-    final_score_pie.add('90 - 100', frequencies[4] / len(stu_numbers) * 100)
-    final_score_pie.add('80 - 90', frequencies[3] / len(stu_numbers) * 100)
-    final_score_pie.add('70 - 80', frequencies[2] / len(stu_numbers) * 100)
-    final_score_pie.add('60 - 70', frequencies[1] / len(stu_numbers) * 100)
-    final_score_pie.add('Fail', frequencies[0] / len(stu_numbers) * 100)
+    for i in range(len(groupList)):
+        final_score_pie.add(
+            '90 - 100', groupList[i][11][4] / len(groupList[0]) * 100)
+        final_score_pie.add(
+            '80 - 90', groupList[i][11][3] / len(groupList[0]) * 100)
+        final_score_pie.add(
+            '70 - 80', groupList[i][11][2] / len(groupList[0]) * 100)
+        final_score_pie.add(
+            '60 - 70', groupList[i][11][1] / len(groupList[0]) * 100)
+        final_score_pie.add(
+            'Fail', groupList[i][11][0] / len(groupList[0]) * 100)
     final_score_pie.render_to_file('Final_score_pie.svg')
 
 
 fileOpen()
 mainProc()
+barChart1Plotting()
 print("Finished!")
-#chartPlotting()
