@@ -16,6 +16,7 @@ scores_4 = []  # scores of level 4
 scores_5 = []  # scores of level 5
 mean = []  # list of mean values
 std = []  # list of standard deviations
+groupList = []
 
 
 def fileOpen():  # filter all txt files in current path
@@ -90,6 +91,7 @@ def mainProc():
             final_scores, frequencies, scores_1, scores_2, scores_3, scores_4,
             scores_5, mean, std
         ]
+        groupList.append(groupName['group' + txt[:4]])
         f.close()
     print("All files finished.")
 
@@ -130,7 +132,6 @@ def chartPlotting():
 
 
 fileOpen()
-#groupName()
 mainProc()
 print("Finished!")
 #chartPlotting()
