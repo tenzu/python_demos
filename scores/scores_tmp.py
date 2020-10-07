@@ -24,13 +24,14 @@ def fileOpen():  # filter all txt files in current path
     files = os.listdir(currentPath)
     txtFiles = []
     for txt in files:
-        if 'txt' in txt:    # filter all txt files
+        if 'txt' in txt:  # filter all txt files
             txtFiles.append(txt)
 
 
 def mainProc():
+    groupName = globals()
     for txt in txtFiles:
-        print(txt+" is under processing.")
+        print(txt + " is under processing.")
         f = open(txt, 'r')
         for line in f.readlines():
             try:
@@ -83,7 +84,12 @@ def mainProc():
                 np.std(scores_5)
             ]  # standard deviations of levels
 
-        print(txt+" finished.")
+        print(txt + " finished.")
+        groupName['group' + txt[:4]] = [
+            stu_numbers, stu_names, usual_performances, exam_performances,
+            final_scores, frequencies, scores_1, scores_2, scores_3, scores_4,
+            scores_5, mean, std
+        ]
         f.close()
     print("All files finished.")
 
@@ -93,7 +99,8 @@ def chartPlotting():
     final_score_bar1 = pygal.Bar()
     final_score_bar1.title = "Final score intervals"
     final_score_bar1.x_labels = [
-        'Fail', '60 - 70', '70 - 80', '80 - 90', '90 - 100']
+        'Fail', '60 - 70', '70 - 80', '80 - 90', '90 - 100'
+    ]
     final_score_bar1._x_title = "Final score intervals"
     final_score_bar1._y_title = "Final score frequency"
     final_score_bar1.add("Sub-total", frequencies)
@@ -103,7 +110,8 @@ def chartPlotting():
     final_score_bar2 = pygal.Bar()
     final_score_bar2.title = "Final score means and standard deviations"
     final_score_bar2.x_labels = [
-        'Fail', '60 - 70', '70 - 80', '80 - 90', '90 - 100']
+        'Fail', '60 - 70', '70 - 80', '80 - 90', '90 - 100'
+    ]
     final_score_bar2._x_title = "Final score intervals"
     final_score_bar2._y_title = "Final score means and STD.s"
     final_score_bar2.add("Mean", mean)
@@ -122,5 +130,7 @@ def chartPlotting():
 
 
 fileOpen()
+#groupName()
 mainProc()
-chartPlotting()
+print("Finished!")
+#chartPlotting()
