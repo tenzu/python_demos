@@ -111,7 +111,7 @@ def barChart2Plotting():
     final_score_bar2 = pygal.Bar()
     final_score_bar2.title = "最终成绩均值和标准差"
     final_score_bar2.x_labels = [
-        'Fail', '60 - 70', '70 - 80', '80 - 90', '90 - 100'
+        '不及格', '60 - 70', '70 - 80', '80 - 90', '90 - 100'
     ]
     final_score_bar2._x_title = "Final score intervals"
     final_score_bar2._y_title = "Final score means and STD.s"
@@ -136,7 +136,7 @@ def pieChartPlotting():
         final_score_pie.add(
             '60 - 70', groupList[i][11][1] / len(groupList[0]) * 100)
         final_score_pie.add(
-            'Fail', groupList[i][11][0] / len(groupList[0]) * 100)
+            '不及格', groupList[i][11][0] / len(groupList[0]) * 100)
     final_score_pie.render_to_file('Final_score_pie.svg')
 
 
