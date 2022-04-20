@@ -28,7 +28,7 @@ def read_students_old():
 
 def read_students():
     for line in f1.readlines():
-        stulist.append(line.split('\t')[1] + '    ' + line.split('\t')[2])
+        stulist.append(line.split('\t')[2] + '    ' + line.split('\t')[3])
 
 
 read_students()
