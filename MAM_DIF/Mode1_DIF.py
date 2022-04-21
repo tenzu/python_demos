@@ -6,7 +6,7 @@ m = 500
 L = 2
 v = 0.8
 Q0 = 2*M0*v/L
-DIF = 1.20
+DIFs = 1.00
 
 # Phase 1
 dt1 = 0.0001
@@ -19,7 +19,7 @@ while t10 < td:
     vs10 += as10*dt1
     ys10 += vs10*dt1
     p0 += -p_max*dt1/td
-    as10 = -(DIF*Q0-L*p0)/(m*L)
+    as10 = -(DIFs*Q0-L*p0)/(m*L)
     t10 += dt1
 
 # Phase 2
@@ -27,11 +27,11 @@ dt2 = 0.0001
 t20 = t10
 vs20 = vs10
 ys20 = ys10
-as20 = -Q0*DIF/m/L
+as20 = -Q0*DIFs/m/L
 while vs20 > 0:
     vs20 += as20*dt2
     ys20 += vs20*dt2
-    as20 = -Q0*DIF/m/L
+    as20 = -Q0*DIFs/m/L
     t20 += dt2
 
 print("as20 =",as20)
