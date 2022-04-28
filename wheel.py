@@ -1,11 +1,18 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 import random
-pool = [1, 2, 3, 4, 5]
-reward = ["30分钟屏幕时间", "15分钟屏幕时间", "无奖励", "学习15分钟", "学习30分钟"]
-i = random.choice(pool)
-print("The lucky number is:", i)
-print(reward[i-1])
+
+def luckyDraw(times):
+    i=1
+    while i<time:
+    pool = [1, 2, 3, 4, 5]
+    reward = ["30分钟屏幕时间", "15分钟屏幕时间", "无奖励", "学习15分钟", "学习30分钟"]
+    j = random.choice(pool)
+    print("This time the lucky number is:", j)
+    print(reward[j-1])
+    i+=1
+
+luckyDraw()
 
 #---########
 #---import random
