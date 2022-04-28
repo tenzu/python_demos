@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 import random
 
+times=input("Input luckydraw times: ")
 def luckyDraw(times):
     i=1
     while i<time:
