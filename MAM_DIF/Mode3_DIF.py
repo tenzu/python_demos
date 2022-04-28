@@ -12,8 +12,8 @@ DIFm = 1.00  # initial DIFm value
 h = 0.3  # beam height
 Iz = 5e6  # beam moment of inertia
 EE = 3.25E10  # Young's modulus of C40 concrete
-VV=0.01 # fibre volumn rate
-DD=3.5E-3  # spline radius
+VV = 0.01  # fibre volumn rate
+DD = 3.5E-3  # spline radius
 
 # Phase 1
 dt1 = 0.0001
@@ -31,25 +31,24 @@ while t10 < td:
     vm10 += am10 * dt1
     ym10 += vm10 * dt1
     p0 += -p_max * dt1 / td
-    print("p0",p0)
     # DIFm = M0 * h / 2 / Iz / EE / dt1 / (M0 * h / 2 / Iz / EE / dt1) * 1.15
     strainRate = h**3 / 2 / ym10**2 / dt1
     if strainRate < 40:
         DIFm = 2.26 + 2.29 * VV**2 - 1.15 * DD**2 - 2.8 * VV + 1.43 * DD - 0.01 * VV * DD + (
-        1.2 * VV - 0.175 * DD + 2.44) * math.log(40, math.e)
+            1.2 * VV - 0.175 * DD + 2.44) * math.log(40, 10)
     elif strainRate > 400:
         DIFm = 2.26 + 2.29 * VV**2 - 1.15 * DD**2 - 2.8 * VV + 1.43 * DD - 0.01 * VV * DD + (
-        1.2 * VV - 0.175 * DD + 2.44) * math.log(400, math.e)
+            1.2 * VV - 0.175 * DD + 2.44) * math.log(400, 10)
     else:
         DIFm = 2.26 + 2.29 * VV**2 - 1.15 * DD**2 - 2.8 * VV + 1.43 * DD - 0.01 * VV * DD + (
-        1.2 * VV - 0.175 * DD + 2.44) * math.log(strainRate, math.e)
-    print("strain rate:",strainRate)
+            1.2 * VV - 0.175 * DD + 2.44) * math.log(strainRate, 10)
+    print("strain rate:", strainRate)
     print(DIFm)
     as10 = 1 / m * p0 + 6 / L**2 / m * M0 - 4 / L / m * Q0
     am10 = 1 / m * p0 - 6 / L**2 / m * M0 * DIFm + 2 / L / m * Q0
     t10 += dt1
 
-print(ym10)
+print("ym10",ym10)
 
 # Phase 2
 dt2 = 0.0001
