@@ -1,15 +1,20 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 import random
+
 times = input("Lucky draw times: ")
 pool = [1, 2, 3, 4, 5]
-reward = ["30分钟屏幕时间", "15分钟屏幕时间", "无奖励", "学习15分钟", "学习30分钟"]
+award = ["30 min. screen time", "15 min. screen time", "No award", "15 min. study time", "30 min. study time"]
 i = 1
+j = len(pool)
 while i <= int(times):
-    j = random.choice(pool)
-    print("This time the lucky number is:", j)
-    print(reward[j-1])
+    k = random.choice(pool)
+    print("This time the lucky number is:", k)
+    print(award[k - 1])
+    if k <= j:
+        j = k
     i += 1
+print("\nThe best award is:", award[j - 1])
 
 #---########
 # ---import random
