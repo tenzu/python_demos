@@ -94,7 +94,7 @@ def mainProc():
 
 def barChart1Plotting():
     final_score_bar1 = pygal.Bar()
-    final_score_bar1.title = "最终成绩区间 (%)"
+    final_score_bar1.title = "最终成绩区间占比"
     # final_score_bar1.title = "Final score intervals (%)"
     final_score_bar1.x_labels = [
         '不及格', '60 - 70', '70 - 80', '80 - 90', '90 - 100'
