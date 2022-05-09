@@ -1,4 +1,3 @@
-import matplotlib.pyplot
 import numpy
 # neural network class defination
 

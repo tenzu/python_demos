@@ -4,8 +4,10 @@ import random
 
 times = input("Lucky draw times: ")
 pool = [1, 2, 3, 4, 5]
-award = ["30 min screen time", "15 min screen time",
-         "No award", "15 min study time", "30 min study time"]
+award = [
+    "30 min screen time", "15 min screen time", "No award",
+    "15 min study time", "30 min study time"
+]
 i = 1
 j = len(pool)
 while i <= int(times):

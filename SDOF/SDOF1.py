@@ -2,6 +2,7 @@
 # to output response of an SDOF.
 from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
+
 M = 10  # mass of SDOF
 C = 2.0  # damping coefficient of SDOF
 K = 25  # stiffness coefficient of SDOF

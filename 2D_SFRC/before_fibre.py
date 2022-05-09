@@ -35,18 +35,17 @@ while F_CONT <= NUM_F:
     y_F = random.uniform(-math.sqrt(0.02975867e3**2 - x_F**2),
                          math.sqrt(0.02975867e3**2 - x_F**2))
     for i in range(0, SPL_SEG + 1):
-        FC_CTR[i + (F_CONT - 1) * (SPL_SEG + 1), 0] = ORG_CTR[i, 0] * math.cos(
-            theta_F * pi / 180.) - ORG_CTR[i, 1] * math.sin(
-                theta_F * pi / 180.) + x_F
-        FC_CTR[i + (F_CONT - 1) * (SPL_SEG + 1), 1] = ORG_CTR[i, 0] * math.sin(
-            theta_F * pi / 180.) + ORG_CTR[i, 1] * math.cos(
-                theta_F * pi / 180.) + y_F
+        FC_CTR[i + (F_CONT - 1) * (SPL_SEG + 1),
+               0] = ORG_CTR[i, 0] * math.cos(theta_F * pi / 180.) - ORG_CTR[
+                   i, 1] * math.sin(theta_F * pi / 180.) + x_F
+        FC_CTR[i + (F_CONT - 1) * (SPL_SEG + 1),
+               1] = ORG_CTR[i, 0] * math.sin(theta_F * pi / 180.) + ORG_CTR[
+                   i, 1] * math.cos(theta_F * pi / 180.) + y_F
     if F_CONT <= NUM_F:
         for j in range((F_CONT - 1) * (SPL_SEG + 1), F_CONT * (SPL_SEG + 1)):
             for k in range(1, (F_CONT - 1) * (SPL_SEG + 1)):
-                if (FC_CTR[j, 0] -
-                        FC_CTR[k, 0])**2 + (FC_CTR[j, 1] - FC_CTR[k, 1])**2 > (
-                            SPL_CR + SPL_CR)**2 + MIN_GAP:
+                if (FC_CTR[j, 0] - FC_CTR[k, 0])**2 + (FC_CTR[j, 1] - FC_CTR[
+                        k, 1])**2 > (SPL_CR + SPL_CR)**2 + MIN_GAP:
                     F_AVLB = F_AVLB * 1
                 else:
                     F_AVLB = F_AVLB * 0
