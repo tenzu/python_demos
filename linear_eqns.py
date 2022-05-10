@@ -11,10 +11,11 @@ def eq1():
 
 
 def eq2():
-    A = np.mat('1 1;2 4')
+    a = np.mat('1 1;2 4')
     b = np.array([35, 94])
-    x = np.linalg.solve(A, b)
+    x = np.linalg.solve(a, b)
     print(x)
 
 
 eq1()
+eq2()
