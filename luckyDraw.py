@@ -17,4 +17,4 @@ while i <= int(times):
     i += 1
 print("\nThe best award is:", award[j - 1])
 
-a = input("\n")
+#a = input("\n")
