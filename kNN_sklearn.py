@@ -28,7 +28,7 @@ def kNNTrain1():
                 X_train1[y_train1 == 1, 1],
                 color='r')
     plt.scatter(X_predict1[0, 0], X_predict1[0, 1], color='g', marker='*')
-    plt.show()
+    #plt.show()
     return y_predict1[0]
 
 
@@ -40,12 +40,15 @@ def kNNTrain2():
     y2 = iris.target
     X_train2, X_test2, y_train2, y_test2 = train_test_split(X2,
                                                             y2,
-                                                            test_size=0.9,
+                                                            test_size=0.96,
                                                             random_state=666)
-    x2 = np.array([8.093607318, 3.365731514, 1, 0.2])
+    #x = np.array([5.1, 3.5, 1.4, 0.2])
+    #x = np.array([7.0, 3.2, 4.7, 1.4])
+    x = np.array([6.3, 3.3, 6.0, 2.5])
     kNN_classifier2 = KNeighborsClassifier(n_neighbors=3, n_jobs=-1)
     kNN_classifier2.fit(X_train2, y_train2)
-    X_predict2 = x2.reshape(1, -1)
+    X_predict = x.reshape(1, -1)
+    y_predict = kNN_classifier2.predict(X_predict)
     y_predict2 = kNN_classifier2.predict(X_test2)
     print("The score for prediction is:", accuracy_score(y_test2, y_predict2))
     plt.scatter(X_train2[y_train2 == 0, 0],
@@ -54,9 +57,9 @@ def kNNTrain2():
     plt.scatter(X_train2[y_train2 == 1, 0],
                 X_train2[y_train2 == 1, 1],
                 color='r')
-    plt.scatter(X_predict2[0, 0], X_predict2[0, 1], color='g', marker='+')
+    plt.scatter(X_predict[0, 0], X_predict[0, 1], color='g', marker='+')
     #plt.show()
-    return y_predict2[0]
+    return y_predict[0]
 
 
 print("Below is the prediction from kNNTrain1")
