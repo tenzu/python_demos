@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 
 
@@ -31,7 +31,6 @@ def kNNTrain1():
 # data for training and testing
 def kNNTrain2():
     iris = datasets.load_iris()
-    iris.keys()
     X = iris.data
     y = iris.target
     X_train, X_test, y_train, y_test = train_test_split(X,
