@@ -9,7 +9,7 @@ def eq1(heads, feet):
     print(sp.solve([x + y - heads, 2 * x + 4 * y - feet], [x, y]))
 
 
-def eq2(head, feet):
+def eq2(heads, feet):
     a = np.array([[1, 1], [2, 4]])
     b = np.array([heads, feet])
     x = np.linalg.solve(a, b)
