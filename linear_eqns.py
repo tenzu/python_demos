@@ -3,19 +3,20 @@ import sympy as sp
 import numpy as np
 
 
-def eq1():
+def eq1(heads, feet):
     x = sp.Symbol('x')
     y = sp.Symbol('y')
-    print(sp.solve([x + y - 35, 2 * x + 4 * y - 94], [x, y]))
-    # print(sp.solve([x**2/9 + y**2/4 - 1, x + y - 1],[x, y]))
+    print(sp.solve([x + y - heads, 2 * x + 4 * y - feet], [x, y]))
 
 
-def eq2():
-    a = np.mat('1 1;2 4')
-    b = np.array([35, 94])
+def eq2(head, feet):
+    a = np.array([[1, 1], [2, 4]])
+    b = np.array([heads, feet])
     x = np.linalg.solve(a, b)
-    print(x)
+    print("There're", x[0], "roosters, and", x[1], "rabbits.")
 
 
-eq1()
-eq2()
+heads = 35
+feet = 94
+eq1(heads, feet)
+eq2(heads, feet)
