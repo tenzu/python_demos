@@ -1,49 +1,29 @@
 # coding:utf-8
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.datasets import fetch_lfw_people
-from sklearn.decomposition import PCA
-import time
+from sklearn.linear_model import LinearRegression
 
-time0 = time.time()
-# 下载数据需要一点时间
-faces = fetch_lfw_people()
-time1 = time.time()
-print('下载数据集时间:\n', time1 - time0, 's')
-print('数据集包含的keys:\n', faces.keys())
-print('样本数和特征数:\n', faces.data.shape)
-print('images包含的信息(样本数, 62*47像素的图像):\n', faces.images.shape)
+# 生成样本特征和标签（非线性关系）
+x = np.random.uniform(-3, 3, size=100)
+X = x.reshape(-1, 1)
+y = 0.5 * x**2 + x + 2 + np.random.normal(0, 1, 100)
+plt.scatter(x, y)
+plt.show()
 
-# 随机获取 36 张脸的数据
-random_indexes = np.random.permutation(len(faces.data))
-X = faces.data[random_indexes]
-example_faces = X[:36, :]
+# 线性回归结果
+lin_reg = LinearRegression()
+lin_reg.fit(X, y)
+y_predict = lin_reg.predict(X)
+plt.scatter(x, y)
+plt.plot(x, y_predict, color='r')
+plt.show()
 
-
-# 绘制函数
-def plot_faces(faces):
-    fig, axes = plt.subplots(6,
-                             6,
-                             figsize=(10, 10),
-                             subplot_kw={
-                                 'xticks': [],
-                                 'yticks': []
-                             },
-                             gridspec_kw=dict(hspace=0.1, wspace=0.1))
-    for i, ax in enumerate(axes.flat):
-        ax.imshow(faces[i].reshape(62, 47), cmap='bone')
-    plt.show()
-
-
-# 绘制随机抽取的 36 张脸
-plot_faces(example_faces)
-
-# 绘制特征脸
-time0 = time.time()
-pca = PCA(svd_solver='randomized')
-pca.fit(X)
-time1 = time.time()
-print('训练时间:\n', time1 - time0, 's')
-print('降维后的样本数量和特征数:\n', pca.components_.shape)
-# 绘制降维后的特征脸
-plot_faces(pca.components_[:36, :])
+# 手动添加特征后仍然适用线性回归
+X2 = np.hstack([X, X**2])
+lin_reg2 = LinearRegression()
+lin_reg2.fit(X2, y)
+y_predict2 = lin_reg2.predict(X2)
+print('X 和 X^2 系数:', lin_reg2.coef_)
+plt.scatter(x, y)
+plt.plot(np.sort(x), y_predict2[np.argsort(x)], color='r')  # 需要对 x 排序
+plt.show()
