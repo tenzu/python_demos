@@ -9,7 +9,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 
 dataset=np.array(originalData['data'])
-X = dataset[:,:4]
+X = dataset[:,:-1]
 y = dataset[:,-1]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=666)
 standardScaler = StandardScaler()
