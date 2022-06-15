@@ -19,6 +19,7 @@ lin_reg.score(X, y)
 y_predict = lin_reg.predict(X)
 print('The score is:\n', lin_reg.score(X, y))
 print('The MSE of linear regression is:\n', mean_squared_error(y, y_predict))
+print('评分低, MSE高, 说明不适合使用线性回归。')
 plt.scatter(x, y)
 plt.plot(np.sort(x), y_predict[np.argsort(x)], color='r')
 plt.show()
@@ -30,7 +31,7 @@ def PolynomialRegression(degree):
         ("std_scaler", StandardScaler()),
         ("lin_reg", LinearRegression())
     ])
-# 2次拟合
+# 2项式回归
 poly2_reg = PolynomialRegression(degree=2)
 poly2_reg.fit(X, y)
 y2_predict = poly2_reg.predict(X)
@@ -38,7 +39,8 @@ print('The MSE of degree=2 is:\n', mean_squared_error(y, y2_predict))
 plt.scatter(x, y)
 plt.plot(np.sort(x), y2_predict[np.argsort(x)], color='r')
 plt.show()
-# 10次拟合
+print('曲线只包含预测点数据，并非拟合出的曲线！')
+# 10项式回归
 poly10_reg = PolynomialRegression(degree=10)
 poly10_reg.fit(X, y)
 y10_predict = poly10_reg.predict(X)
@@ -46,7 +48,7 @@ print('The MSE of degree=10 is:\n', mean_squared_error(y, y10_predict))
 plt.scatter(x, y)
 plt.plot(np.sort(x), y10_predict[np.argsort(x)], color='r')
 plt.show()
-# 100次拟合
+# 100项式回归
 poly100_reg = PolynomialRegression(degree=100)
 poly100_reg.fit(X, y)
 y100_predict = poly100_reg.predict(X)
@@ -54,7 +56,7 @@ print('The MSE of degree=100 is:\n', mean_squared_error(y, y100_predict))
 plt.scatter(x, y)
 plt.plot(np.sort(x), y100_predict[np.argsort(x)], color='r')
 plt.show()
-
+# 还原真正的拟合曲线
 X_plot = np.linspace(-3, 3, 100).reshape(100, 1)
 y_plot = poly100_reg.predict(X_plot)
 plt.scatter(x, y)
