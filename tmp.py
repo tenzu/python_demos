@@ -24,13 +24,14 @@ plt.scatter(x, y)
 plt.plot(np.sort(x), y_predict[np.argsort(x)], color='r')
 plt.show()
 
+
 # 使用多项式回归
 def PolynomialRegression(degree):
-    return Pipeline([
-        ("poly", PolynomialFeatures(degree=degree)),
-        ("std_scaler", StandardScaler()),
-        ("lin_reg", LinearRegression())
-    ])
+    return Pipeline([("poly", PolynomialFeatures(degree=degree)),
+                     ("std_scaler", StandardScaler()),
+                     ("lin_reg", LinearRegression())])
+
+
 # 2项式回归
 poly2_reg = PolynomialRegression(degree=2)
 poly2_reg.fit(X, y)
@@ -60,6 +61,6 @@ plt.show()
 X_plot = np.linspace(-3, 3, 100).reshape(100, 1)
 y_plot = poly100_reg.predict(X_plot)
 plt.scatter(x, y)
-plt.plot(X_plot[:,0], y_plot, color='r')
+plt.plot(X_plot[:, 0], y_plot, color='r')
 plt.axis([-3, 3, 0, 10])
 plt.show()
