@@ -3,6 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.preprocessing import StandardScaler
 
 np.random.seed(666)
 x = np.random.uniform(-3.0, 3.0, size=100)
@@ -15,7 +18,46 @@ lin_reg.fit(X, y)
 lin_reg.score(X, y)
 y_predict = lin_reg.predict(X)
 print('The score is:\n', lin_reg.score(X, y))
-print('The MSE is:\n', mean_squared_error(y, y_predict))
+print('The MSE of linear regression is:\n', mean_squared_error(y, y_predict))
 plt.scatter(x, y)
 plt.plot(np.sort(x), y_predict[np.argsort(x)], color='r')
+plt.show()
+
+# 使用多项式回归
+def PolynomialRegression(degree):
+    return Pipeline([
+        ("poly", PolynomialFeatures(degree=degree)),
+        ("std_scaler", StandardScaler()),
+        ("lin_reg", LinearRegression())
+    ])
+# 2次拟合
+poly2_reg = PolynomialRegression(degree=2)
+poly2_reg.fit(X, y)
+y2_predict = poly2_reg.predict(X)
+print('The MSE of degree=2 is:\n', mean_squared_error(y, y2_predict))
+plt.scatter(x, y)
+plt.plot(np.sort(x), y2_predict[np.argsort(x)], color='r')
+plt.show()
+# 10次拟合
+poly10_reg = PolynomialRegression(degree=10)
+poly10_reg.fit(X, y)
+y10_predict = poly10_reg.predict(X)
+print('The MSE of degree=10 is:\n', mean_squared_error(y, y10_predict))
+plt.scatter(x, y)
+plt.plot(np.sort(x), y10_predict[np.argsort(x)], color='r')
+plt.show()
+# 100次拟合
+poly100_reg = PolynomialRegression(degree=100)
+poly100_reg.fit(X, y)
+y100_predict = poly100_reg.predict(X)
+print('The MSE of degree=100 is:\n', mean_squared_error(y, y100_predict))
+plt.scatter(x, y)
+plt.plot(np.sort(x), y100_predict[np.argsort(x)], color='r')
+plt.show()
+
+X_plot = np.linspace(-3, 3, 100).reshape(100, 1)
+y_plot = poly100_reg.predict(X_plot)
+plt.scatter(x, y)
+plt.plot(X_plot[:,0], y_plot, color='r')
+plt.axis([-3, 3, 0, 10])
 plt.show()
