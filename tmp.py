@@ -44,3 +44,4 @@ poly100_reg = PolynomialRegression(degree=100)
 poly100_reg.fit(X_train, y_train)
 y100_predict = poly100_reg.predict(X_test)
 print('The MSE of degree=10 is:\n', mean_squared_error(y_test, y100_predict))
+
