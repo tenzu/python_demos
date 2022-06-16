@@ -1,42 +1,38 @@
 # coding:utf-8
 import numpy as np
-from sklearn import datasets
+import matplotlib.pyplot as plt
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.model_selection import cross_val_score
+from sklearn.metrics import mean_squared_error
 
-digits = datasets.load_digits()
-X = digits.data
-y = digits.target
-X_train, X_test, y_train, y_test = train_test_split(X,
-                                                    y,
-                                                    test_size=0.4,
-                                                    random_state=666)
+np.random.seed(42)
+x = np.random.uniform(-3.0, 3.0, size=100)
+X = x.reshape(-1, 1)
+y = 0.5 * x + 3 + np.random.normal(0, 1, size=100)
 
-# 手动验证
-best_k, best_p, best_score = 0, 0, 0
-for k in range(2, 11):
-    for p in range(1, 6):
-        knn_clf = KNeighborsClassifier(weights="distance", n_neighbors=k, p=p)
-        knn_clf.fit(X_train, y_train)
-        score = knn_clf.score(X_test, y_test)
-        if score > best_score:
-            best_k, best_p, best_score = k, p, score
+def PolynomialRegression(degree):
+    return Pipeline([
+        ("poly", PolynomialFeatures(degree=degree)),
+        ("std_scaler", StandardScaler()),
+        ("lin_reg", LinearRegression())
+    ])
 
-print("Best K =", best_k)
-print("Best P =", best_p)
-print("Best Score =", best_score)
+X_train, X_test, y_train, y_test = train_test_split(X, y)
+poly_reg = PolynomialRegression(degree=20)
+poly_reg.fit(X_train, y_train)
+y_poly_predict = poly_reg.predict(X_test)
+mean_squared_error(y_test, y_poly_predict)
 
-# sklearn 交叉验证
-best_k, best_p, best_score = 0, 0, 0
-for k in range(2, 11):
-    for p in range(1, 6):
-        knn_clf = KNeighborsClassifier(weights="distance", n_neighbors=k, p=p)
-        scores = cross_val_score(knn_clf, X_train, y_train, cv=5)
-        score = np.mean(scores)
-        if score > best_score:
-            best_k, best_p, best_score = k, p, score
+def plot_model(model):
+    X_plot = np.linspace(-3, 3, 100).reshape(100, 1)
+    y_plot = model.predict(X_plot)
 
-print("Best K =", best_k)
-print("Best P =", best_p)
-print("Best Score =", best_score)
+    plt.scatter(x, y)
+    plt.plot(X_plot[:,0], y_plot, color='r')
+    plt.axis([-3, 3, 0, 6])
+    plt.show()
+
+plot_model(poly_reg)
