@@ -8,6 +8,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
+from sklearn.linear_model import Lasso
 
 np.random.seed(42)
 x = np.random.uniform(-3.0, 3.0, size=100)
@@ -48,8 +49,23 @@ def RidgeRegression(degree, alpha):
                      ("std_scaler", StandardScaler()),
                      ("ridge_reg", Ridge(alpha=alpha))])
 
-ridge1_reg = RidgeRegression(degree=20, alpha=0.0001)   # alpha 参见公式
+# alpha 参见公式，可取0.00001到10000（全凭经验）
+ridge1_reg = RidgeRegression(degree=20, alpha=0.0001)
 ridge1_reg.fit(X_train, y_train)
 y1_predict = ridge1_reg.predict(X_test)
 print('The MSE after ridge is:\n', mean_squared_error(y_test, y1_predict))
 plot_model(ridge1_reg)
+
+# 使用 lasso 回归
+def LassoRegression(degree, alpha):
+    return Pipeline([
+        ("poly", PolynomialFeatures(degree=degree)),
+        ("std_scaler", StandardScaler()),
+        ("lasso_reg", Lasso(alpha=alpha))
+    ])
+# alpha 取值范围相对岭回归而言小很多（全凭经验）
+lasso1_reg = LassoRegression(degree=20, alpha=0.01)
+lasso1_reg.fit(X_train, y_train)
+y1_predict = lasso1_reg.predict(X_test)
+print('The MSE of lasso is:\n', mean_squared_error(y_test, y1_predict))
+plot_model(lasso1_reg)
