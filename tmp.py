@@ -32,7 +32,7 @@ best_k, best_p, best_score = 0, 0, 0
 for k in range(2, 11):
     for p in range(1, 6):
         knn_clf = KNeighborsClassifier(weights="distance", n_neighbors=k, p=p)
-        scores = cross_val_score(knn_clf, X_train, y_train)
+        scores = cross_val_score(knn_clf, X_train, y_train, cv=5)
         score = np.mean(scores)
         if score > best_score:
             best_k, best_p, best_score = k, p, score
