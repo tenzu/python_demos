@@ -22,3 +22,8 @@ kNN_classifier = KNeighborsClassifier(n_neighbors=3, n_jobs=-1)
 kNN_classifier.fit(X_train_standard, y_train)
 score = kNN_classifier.score(X_test_standard, y_test)
 print("The score of standarized data is:\n", score)
+
+x = np.array([6.3, 3.3, 6.0, 2.5])
+X_predict = x.reshape(1, -1)
+y_predict = kNN_classifier.predict(X_predict)
+print('y_predict is:\n', y_predict[0])
