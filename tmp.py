@@ -1,50 +1,42 @@
 # coding:utf-8
 import numpy as np
-import matplotlib.pyplot as plt
+from sklearn import datasets
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.preprocessing import StandardScaler
-from sklearn.pipeline import Pipeline
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import cross_val_score
 
-# 手动指定数据集
-np.random.seed(666)
-x = np.random.uniform(-3.0, 3.0, size=100)
-X = x.reshape(-1, 1)
-y = 0.5 * x**2 + x + 2 + np.random.normal(0, 1, size=100)
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=10)
+digits = datasets.load_digits()
+X = digits.data
+y = digits.target
+X_train, X_test, y_train, y_test = train_test_split(X,
+                                                    y,
+                                                    test_size=0.4,
+                                                    random_state=666)
 
-# 分类算法学习曲线
-def plot_learning_curve(algo, X_train, X_test, y_train, y_test):
-    train_score = []
-    test_score = []
-    for i in range(1, len(X_train)+1):
-        algo.fit(X_train[:i], y_train[:i])
-        y_train_predict = algo.predict(X_train[:i])
-        train_score.append(mean_squared_error(y_train[:i], y_train_predict))
-        y_test_predict = algo.predict(X_test)
-        test_score.append(mean_squared_error(y_test, y_test_predict))
-    plt.plot([i for i in range(1, len(X_train)+1)], 
-                               np.sqrt(train_score), label="train")
-    plt.plot([i for i in range(1, len(X_train)+1)], 
-                               np.sqrt(test_score), label="test")
-    plt.legend()
-    plt.axis([0, len(X_train)+1, 0, 4])   # 限定了坐标轴显示范围
-    plt.show()
+# 手动验证
+best_k, best_p, best_score = 0, 0, 0
+for k in range(2, 11):
+    for p in range(1, 6):
+        knn_clf = KNeighborsClassifier(weights="distance", n_neighbors=k, p=p)
+        knn_clf.fit(X_train, y_train)
+        score = knn_clf.score(X_test, y_test)
+        if score > best_score:
+            best_k, best_p, best_score = k, p, score
 
-plot_learning_curve(LinearRegression(), X_train, X_test, y_train, y_test)
+print("Best K =", best_k)
+print("Best P =", best_p)
+print("Best Score =", best_score)
 
+# sklearn 交叉验证
+best_k, best_p, best_score = 0, 0, 0
+for k in range(2, 11):
+    for p in range(1, 6):
+        knn_clf = KNeighborsClassifier(weights="distance", n_neighbors=k, p=p)
+        scores = cross_val_score(knn_clf, X_train, y_train)
+        score = np.mean(scores)
+        if score > best_score:
+            best_k, best_p, best_score = k, p, score
 
-# 2阶多项式回归学习曲线
-def PolynomialRegression(degree):
-    return Pipeline([
-        ("poly", PolynomialFeatures(degree=degree)),
-        ("std_scaler", StandardScaler()),
-        ("lin_reg", LinearRegression())
-    ])
-
-poly2_reg = PolynomialRegression(degree=2)
-plot_learning_curve(poly2_reg, X_train, X_test, y_train, y_test)
-
-
+print("Best K =", best_k)
+print("Best P =", best_p)
+print("Best Score =", best_score)
