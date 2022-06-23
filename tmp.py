@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import precision_recall_curve
 from sklearn.metrics import roc_curve
+from sklearn.metrics import roc_auc_score
 
 digits = datasets.load_digits()
 X = digits.data
@@ -34,3 +35,6 @@ plt.show()
 fprs, tprs, thresholds = roc_curve(y_test, decision_scores)
 plt.plot(fprs, tprs)
 plt.show()
+# 求出 ROC 曲线下的面积
+# AUC = area under curve
+print('ROC AUC score:\n', roc_auc_score(y_test, decision_scores))
