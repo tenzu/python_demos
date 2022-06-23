@@ -4,10 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import f1_score
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import precision_score
-from sklearn.metrics import recall_score
+from sklearn.metrics import precision_recall_curve
 
 digits = datasets.load_digits()
 X = digits.data
@@ -20,15 +17,14 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=666)
 log_reg = LogisticRegression()
 log_reg.fit(X_train, y_train)
 y_predict = log_reg.predict(X_test)
-print('F1 score:\n', f1_score(y_test, y_predict))
-print('Confusion matrix:\n', confusion_matrix(y_test, y_predict))
-print('Precision score:\n', precision_score(y_test, y_predict))
-print('Recall score:\n', recall_score(y_test, y_predict))
-
-# 更改 threshold 值
 decision_scores = log_reg.decision_function(X_test)
-y_predict_2 = np.array(decision_scores >= 5, dtype='int')
-print('The threshold = 5.0')
-print('Confusion matrix changes to:\n', confusion_matrix(y_test, y_predict_2))
-print('Precision score changes to:\n', precision_score(y_test, y_predict_2))
-print('Recall score changes to:\n', recall_score(y_test, y_predict_2))
+
+precisions, recalls, thresholds = precision_recall_curve(
+    y_test, decision_scores)
+plt.plot(thresholds, precisions[:-1], c='r')
+plt.plot(thresholds, recalls[:-1], c='b')
+plt.show()
+
+# 精准率-召回率曲线，
+plt.plot(precisions, recalls)
+plt.show()
