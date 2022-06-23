@@ -17,5 +17,18 @@ log_reg.fit(X_train, y_train)
 y_predict = log_reg.predict(X_test)
 decision_scores = log_reg.decision_function(X_test)
 
-# 修改 average 参数，计算多分类精准率
+# 修改 average 参数（默认为 binary），计算多分类精准率
 print('多分类精准率:\n', precision_score(y_test, y_predict, average="micro"))
+# 混淆矩阵
+print('Confusion Matrix:\n', confusion_matrix(y_test, y_predict))
+# 绘制混淆矩阵，显示预测正确的位置
+cfm = confusion_matrix(y_test, y_predict)
+plt.matshow(cfm, cmap=plt.cm.gray)
+plt.show()
+
+# 绘制混淆矩阵，显示预测错误的地方
+row_sums = np.sum(cfm, axis=1)
+err_matrix = cfm / row_sums
+np.fill_diagonal(err_matrix, 0)
+plt.matshow(err_matrix, cmap=plt.cm.gray)
+plt.show()
