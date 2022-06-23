@@ -25,6 +25,6 @@ plt.plot(thresholds, precisions[:-1], c='r')
 plt.plot(thresholds, recalls[:-1], c='b')
 plt.show()
 
-# 精准率-召回率曲线，
+# 精准率-召回率曲线，自动选择坐标值上下限，召回率急剧下降前精确率的值（横坐标）对应平衡点
 plt.plot(precisions, recalls)
 plt.show()
