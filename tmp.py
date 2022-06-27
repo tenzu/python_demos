@@ -18,4 +18,5 @@ def StandardLinearSVR(epsilon=0.1):
 svr = StandardLinearSVR()
 svr.fit(X_train, y_train)
 
+# score 并不高，可调整超参数来改善
 print('Standard linear SVR score:\n', svr.score(X_test, y_test))
