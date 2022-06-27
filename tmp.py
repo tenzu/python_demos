@@ -5,6 +5,7 @@ from sklearn import datasets
 from sklearn.preprocessing import PolynomialFeatures, StandardScaler
 from sklearn.svm import LinearSVC
 from sklearn.pipeline import Pipeline
+from sklearn.svm import SVC
 
 # 数据集包含100个样本，每个样本有2个特征
 # 手动添加噪声特征
@@ -38,9 +39,23 @@ def plot_decision_boundary(model, axis):
     custom_cmap = ListedColormap(['#EF9A9A','#FFF59D','#90CAF9'])
     plt.contourf(x0, x1, zz, linewidth=5, cmap=custom_cmap)
 
-# 绘制决策边界
+# 绘制3阶多项式的决策边界
 plot_decision_boundary(poly_svc, axis=[-1.5, 2.5, -1.0, 1.5])
 plt.scatter(X[y==0,0], X[y==0,1])
 plt.scatter(X[y==1,0], X[y==1,1])
 plt.show()
 
+# 使用多项式核函数的 SVM（替代多项式特征）
+def PolynomialKernelSVC(degree, C=1.0):
+    return Pipeline([
+        ("std_scaler", StandardScaler()),
+        ("kernelSVC", SVC(kernel="poly", degree=degree, C=C))
+    ])
+
+poly_kernel_svc = PolynomialKernelSVC(degree=3)
+poly_kernel_svc.fit(X, y)
+# 绘制使用核函数后的决策边界
+plot_decision_boundary(poly_kernel_svc, axis=[-1.5, 2.5, -1.0, 1.5])
+plt.scatter(X[y==0,0], X[y==0,1])
+plt.scatter(X[y==1,0], X[y==1,1])
+plt.show()
