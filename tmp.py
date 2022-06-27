@@ -10,6 +10,7 @@ X = boston.data
 y = boston.target
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=666)
 
+# epsilon 与 margin 意义相同
 def StandardLinearSVR(epsilon=0.1):
     return Pipeline([('std_scaler', StandardScaler()),
                      ('linearSVR', LinearSVR(epsilon=epsilon))])
