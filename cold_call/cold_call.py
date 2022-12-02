@@ -31,8 +31,8 @@ def read_students():
 
 read_students()
 
-r_num = random.randint(5, 12)
-print("The magic number is:"), r_num
+r_num = random.randint(1, 4)
+print("The magic number is:", r_num)
 list1 = random.sample(stulist, r_num)
 for i in list1:
     print(i)
