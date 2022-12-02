@@ -39,7 +39,7 @@ for i in list1:
 f2 = open("cc_record.txt", "a")
 f2.write('Cold call on: ' +
          time.strftime('%Y-%m-%d %A %X %Z', time.localtime(time.time())) +
-         '\n' + 'Totally ' + str(r_num) + ' students this time.' + '\n')
+         '\n' + 'Totally ' + str(r_num) + ' student(s) this time.' + '\n')
 for i in list1:
     f2.write(i + '\n')
 
