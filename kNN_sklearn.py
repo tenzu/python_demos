@@ -1,5 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
@@ -21,10 +21,10 @@ def kNNTrain1():
     kNN_classifier.fit(X_train, y_train)
     X_predict = x.reshape(1, -1)
     y_predict = kNN_classifier.predict(X_predict)
-#    plt.scatter(X_train[y_train == 0, 0], X_train[y_train == 0, 1], color='b')
-#    plt.scatter(X_train[y_train == 1, 0], X_train[y_train == 1, 1], color='r')
-#    plt.scatter(X_predict[0, 0], X_predict[0, 1], color='g', marker='*')
-#    plt.show()
+    # plt.scatter(X_train[y_train == 0, 0], X_train[y_train == 0, 1], color='b')
+    # plt.scatter(X_train[y_train == 1, 0], X_train[y_train == 1, 1], color='r')
+    # plt.scatter(X_predict[0, 0], X_predict[0, 1], color='g', marker='*')
+    # plt.show()
     return y_predict[0]
 
 
@@ -37,8 +37,8 @@ def kNNTrain2():
                                                         y,
                                                         test_size=0.93,
                                                         random_state=666)
-    #    x = np.array([5.1, 3.5, 1.4, 0.2])
-    #    x = np.array([7.0, 3.2, 4.7, 1.4])
+    # x = np.array([5.1, 3.5, 1.4, 0.2])
+    # x = np.array([7.0, 3.2, 4.7, 1.4])
     x = np.array([6.3, 3.3, 6.0, 2.5])
     kNN_classifier = KNeighborsClassifier(n_neighbors=3, n_jobs=-1)
     kNN_classifier.fit(X_train, y_train)
